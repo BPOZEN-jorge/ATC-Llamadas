@@ -21,6 +21,19 @@ st.set_page_config(
 FILE_ATC_VENTAS = "atc_ventas_ruleta.json"
 
 # ==========================================
+# INICIALIZACIÓN DE ESTADO PARA LIMPIEZA DE FORMULARIO
+# ==========================================
+if "input_telefono" not in st.session_state:
+    st.session_state["input_telefono"] = ""
+if "input_agente_atc" not in st.session_state:
+    st.session_state["input_agente_atc"] = ""
+
+def limpiar_campos():
+    """Limpia las variables del formulario en st.session_state."""
+    st.session_state["input_telefono"] = ""
+    st.session_state["input_agente_atc"] = ""
+
+# ==========================================
 # DATOS INICIALES DE AGENTES ATC QUE TRANSFIEREN
 # ==========================================
 AGENTES_ATC_INICIALES = [
@@ -199,12 +212,6 @@ def procesar_transferencia(
     agente_atc_nombre: str, 
     modo_reasignacion: str = "siguiente"
 ) -> tuple[bool, str]:
-    """
-    Ejecuta la transferencia de forma libre sin validación de PIN.
-    modo_reasignacion: 
-      - 'siguiente': Asigna al siguiente en la ruleta y rota la fila.
-      - 'mismo': Reasigna al agente previo que atendió al cliente (no altera la fila).
-    """
     telefono_clean = telefono.strip()
     agente_atc_clean = agente_atc_nombre.strip()
 
@@ -234,7 +241,7 @@ def procesar_transferencia(
             "fecha_hora": now_col
         }
         historial.insert(0, nuevo_registro)
-        nuevos_turnos = turnos  # La fila no se modifica al reasignar al mismo
+        nuevos_turnos = turnos
 
     else:  # Modo 'siguiente'
         agente_asignado = turnos[0]
@@ -317,11 +324,18 @@ if opcion_vista == "🎧 Transferir a Ventas":
     with col_form:
         st.subheader("📋 Datos de la Transferencia")
         
-        # Campo para validar teléfono del cliente
-        telefono_input = st.text_input("📱 Teléfono del Cliente:", key="tel_cliente_input", placeholder="Ej: 3001234567")
+        # Vincular inputs a st.session_state
+        telefono_input = st.text_input(
+            "📱 Teléfono del Cliente:", 
+            key="input_telefono", 
+            placeholder="Ej: 3001234567"
+        )
         
-        # Selección del Agente ATC que realiza la operación
-        agente_atc_selected = st.selectbox("🎧 Agente ATC que transfiere:", [""] + AGENTES_ATC_INICIALES)
+        agente_atc_selected = st.selectbox(
+            "🎧 Agente ATC que transfiere:", 
+            [""] + AGENTES_ATC_INICIALES,
+            key="input_agente_atc"
+        )
 
         # VALIDACIÓN DE DUPLICADOS EN TIEMPO REAL
         registro_previo = buscar_transferencia_previa(telefono_input) if telefono_input else None
@@ -346,7 +360,8 @@ if opcion_vista == "🎧 Transferir a Ventas":
                     )
                     if exito:
                         st.success(msj)
-                        time_lib.sleep(1.5)
+                        limpiar_campos()  # Limpia campos tras envío
+                        time_lib.sleep(1.2)
                         st.rerun()
                     else:
                         st.error(msj)
@@ -360,7 +375,8 @@ if opcion_vista == "🎧 Transferir a Ventas":
                     )
                     if exito:
                         st.success(msj)
-                        time_lib.sleep(1.5)
+                        limpiar_campos()  # Limpia campos tras envío
+                        time_lib.sleep(1.2)
                         st.rerun()
                     else:
                         st.error(msj)
@@ -375,7 +391,8 @@ if opcion_vista == "🎧 Transferir a Ventas":
                 )
                 if exito:
                     st.success(msj)
-                    time_lib.sleep(1.5)
+                    limpiar_campos()  # Limpia campos tras envío
+                    time_lib.sleep(1.2)
                     st.rerun()
                 else:
                     st.error(msj)
