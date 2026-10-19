@@ -21,6 +21,46 @@ st.set_page_config(
 FILE_ATC_VENTAS = "atc_ventas_ruleta.json"
 
 # ==========================================
+# DATOS INICIALES DE AGENTES ATC QUE TRANSFIEREN
+# ==========================================
+AGENTES_ATC_INICIALES = [
+    "Wensly Hurtado",
+    "Lizeth Vanessa Cifuentes",
+    "Camila Blandon",
+    "Daniela Ramirez",
+    "Geraldine Arrieta",
+    "Esmeralda Garcia",
+    "Mitchell Morales",
+    "Evelin Rios Zuleta",
+    "Wendys Johanna Garavito",
+    "Erika Buritica",
+    "Barbara Fratello",
+    "Yully Buitrago",
+    "Maria del Pilar Galindo",
+    "Lorena Botero",
+    "Yiseth Daniela Moreno",
+    "Diana Castro",
+    "Gonzalo Mejia",
+    "Jhon Benjumea",
+    "Johnny Llano",
+    "Mariana Sierra",
+    "Paula Andrea Vanegas Serna",
+    "MIGUEL ANGEL ZUÑIGA MOSQUERA",
+    "Yurley Palacios Córdoba",
+    "Britney Valentina Niño Fuentes",
+    "Raymar Carolina Ramírez Martínez",
+    "Nataly De castro Henao",
+    "Katerin Johana Gutiérrez villa",
+    "Glendys Sayago Sayago",
+    "Mariana Marulanda Mesa",
+    "Nazlin Yudith Robledo Blando",
+    "dany isaza",
+    "maria fernanda",
+    "María José Hernández Aldana",
+    "Joyke Machacon Suarez"
+]
+
+# ==========================================
 # DATOS INICIALES DE USUARIOS (VENTAS)
 # ==========================================
 USUARIOS_INICIALES = [
@@ -281,8 +321,7 @@ if opcion_vista == "🎧 Transferir a Ventas":
         telefono_input = st.text_input("📱 Teléfono del Cliente:", key="tel_cliente_input", placeholder="Ej: 3001234567")
         
         # Selección del Agente ATC que realiza la operación
-        lista_agentes_atc = [u["real"] for u in USUARIOS_INICIALES]
-        agente_atc_selected = st.selectbox("🎧 Agente ATC que transfiere:", [""] + lista_agentes_atc)
+        agente_atc_selected = st.selectbox("🎧 Agente ATC que transfiere:", [""] + AGENTES_ATC_INICIALES)
 
         # VALIDACIÓN DE DUPLICADOS EN TIEMPO REAL
         registro_previo = buscar_transferencia_previa(telefono_input) if telefono_input else None
