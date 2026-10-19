@@ -29,7 +29,7 @@ if "input_agente_atc" not in st.session_state:
     st.session_state["input_agente_atc"] = ""
 
 def limpiar_campos():
-    """Limpia las variables del formulario en st.session_state."""
+    """Limpia las variables del formulario en st.session_state mediante callback."""
     st.session_state["input_telefono"] = ""
     st.session_state["input_agente_atc"] = ""
 
@@ -324,7 +324,7 @@ if opcion_vista == "🎧 Transferir a Ventas":
     with col_form:
         st.subheader("📋 Datos de la Transferencia")
         
-        # Vincular inputs a st.session_state
+        # Inputs vinculados a st.session_state
         telefono_input = st.text_input(
             "📱 Teléfono del Cliente:", 
             key="input_telefono", 
@@ -352,7 +352,7 @@ if opcion_vista == "🎧 Transferir a Ventas":
             col_b1, col_b2 = st.columns(2)
             
             with col_b1:
-                if st.button("🔄 Reasignar al Mismo Agente", use_container_width=True, type="secondary"):
+                if st.button("🔄 Reasignar al Mismo Agente", use_container_width=True, type="secondary", on_click=limpiar_campos):
                     exito, msj = procesar_transferencia(
                         telefono=telefono_input,
                         agente_atc_nombre=agente_atc_selected,
@@ -360,14 +360,13 @@ if opcion_vista == "🎧 Transferir a Ventas":
                     )
                     if exito:
                         st.success(msj)
-                        limpiar_campos()  # Limpia campos tras envío
                         time_lib.sleep(1.2)
                         st.rerun()
                     else:
                         st.error(msj)
 
             with col_b2:
-                if st.button("➡️ Omitir y Asignar al Siguiente", use_container_width=True, type="primary"):
+                if st.button("➡️ Omitir y Asignar al Siguiente", use_container_width=True, type="primary", on_click=limpiar_campos):
                     exito, msj = procesar_transferencia(
                         telefono=telefono_input,
                         agente_atc_nombre=agente_atc_selected,
@@ -375,15 +374,14 @@ if opcion_vista == "🎧 Transferir a Ventas":
                     )
                     if exito:
                         st.success(msj)
-                        limpiar_campos()  # Limpia campos tras envío
                         time_lib.sleep(1.2)
                         st.rerun()
                     else:
                         st.error(msj)
 
         else:
-            # Botón libre de transferencia cuando no hay duplicados
-            if st.button("🚀 Transferir Cliente Libremente ➡️", use_container_width=True, type="primary"):
+            # Botón libre de transferencia con callback on_click
+            if st.button("🚀 Transferir Cliente Libremente ➡️", use_container_width=True, type="primary", on_click=limpiar_campos):
                 exito, msj = procesar_transferencia(
                     telefono=telefono_input,
                     agente_atc_nombre=agente_atc_selected,
@@ -391,7 +389,6 @@ if opcion_vista == "🎧 Transferir a Ventas":
                 )
                 if exito:
                     st.success(msj)
-                    limpiar_campos()  # Limpia campos tras envío
                     time_lib.sleep(1.2)
                     st.rerun()
                 else:
