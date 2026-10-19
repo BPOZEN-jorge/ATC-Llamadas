@@ -215,8 +215,6 @@ def procesar_transferencia(
     telefono_clean = telefono.strip()
     agente_atc_clean = agente_atc_nombre.strip()
 
-    if not telefono_clean:
-        return False, "⚠️ Debes ingresar un número de teléfono válido."
     if not agente_atc_clean:
         return False, "⚠️ Debes seleccionar qué agente ATC está realizando la transferencia."
 
@@ -270,7 +268,7 @@ def procesar_transferencia(
     }
 
     if escribir_json_github(FILE_ATC_VENTAS, data_payload, f"Transferencia cliente {telefono_clean} a {agente_asignado_alias}"):
-        return True, f"✅ Transferencia exitosa. Cliente `{telefono_clean}` asignado a **{agente_asignado_alias}** ({agente_asignado_real})."
+        return True, f"✅ Transferencia exitosa. Cliente `{telefono_clean if telefono_clean else 'Sin teléfono'}` asignado a **{agente_asignado_alias}** ({agente_asignado_real})."
     else:
         return False, "❌ Error de comunicación con GitHub. Reintenta la operación."
 
@@ -328,7 +326,7 @@ if opcion_vista == "🎧 Transferir a Ventas":
         telefono_input = st.text_input(
             "📱 Teléfono del Cliente:", 
             key="input_telefono", 
-            placeholder="Ej: 3001234567"
+            placeholder="Ej: +573001234567, +14155552671..."
         )
         
         agente_atc_selected = st.selectbox(
