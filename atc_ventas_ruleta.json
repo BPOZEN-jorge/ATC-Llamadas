@@ -54,7 +54,7 @@
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 9,
@@ -264,6 +264,15 @@
     "reservas": {},
     "puntero_coordinador": 0,
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-30 11:52:20",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "coordinador": "Jose",
+            "motivo": "Llegada / inicio de jornada",
+            "registrado_por": "jose"
+        },
         {
             "fecha_hora": "2026-10-30 11:51:55",
             "tipo": "REACTIVADO",
