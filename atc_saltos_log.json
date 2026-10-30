@@ -1,6 +1,19 @@
 {
     "saltos": [
         {
+            "fecha_hora": "2026-10-30 11:52:20",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Oscar José Llanos Mendinueta",
+            "alias": "Oscar",
+            "coordinador": "Jose",
+            "motivo": "Llegada / inicio de jornada",
+            "registrado_por": "jose",
+            "siguientes_snapshot": [
+                "Alisson (Paula)"
+            ],
+            "id_evento": 2
+        },
+        {
             "fecha_hora": "2026-10-30 11:51:55",
             "tipo": "REACTIVADO",
             "nombre_real": "Alisson Correa Gaviria",
