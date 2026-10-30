@@ -82,7 +82,7 @@
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 13,
@@ -264,6 +264,15 @@
     "reservas": {},
     "puntero_coordinador": 0,
     "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-30 11:51:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
+            "coordinador": "Paula",
+            "motivo": "Llegada / inicio de jornada",
+            "registrado_por": "Paula"
+        },
         {
             "fecha_hora": "2026-10-30 11:06:54",
             "tipo": "RESET_DIARIO",
