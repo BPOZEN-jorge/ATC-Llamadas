@@ -54,7 +54,6 @@ if "limpiar_formulario" not in st.session_state:
 # Si se marcó la bandera de limpieza en la ejecución anterior, limpiamos
 if st.session_state["limpiar_formulario"]:
     st.session_state["input_telefono"] = ""
-    st.session_state["input_call_id"] = ""
     st.session_state["pin_atc"] = ""
     st.session_state["limpiar_formulario"] = False
 
@@ -430,12 +429,17 @@ def _orden_del_dia(coordinador: str, nombres: list) -> dict:
 
 def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> list:
     """
-    Próximos turnos (el primero es el TURNO ACTUAL):
-    1) Coordinador en rotación Jose → Paula → Victor (se salta al que no tenga asesores disponibles).
+    Próximos turnos (el primero es el TURNO DISPONIBLE):
+    1) Coordinador en rotación Jose → Paula → Victor. El turno se queda en el grupo del coordinador
+       hasta que alguien de ese grupo reciba una transferencia; solo pasa al siguiente coordinador si
+       nadie de su grupo está disponible (sin activos, o todos marcados "no disponible" en esta ronda).
     2) Dentro del coordinador: menos transferencias hoy → hace más tiempo que no le toca → sorteo del día.
-    Solo asesores ACTIVOS.
+    Solo asesores ACTIVOS. La lista de "siguen" supone que cada turno termina en transferencia.
     """
     stats = estadisticas_hoy(data)
+    puntero = int(data.get("puntero_coordinador", 0)) % len(COORDINADORES)
+    coord_actual = COORDINADORES[puntero]
+    ronda_actual = set(data.get("no_disponibles_ronda", {}).get(coord_actual, []))
     por_coord = {}
     for c in COORDINADORES:
         candidatos = [t for t in data["turnos"]
@@ -444,9 +448,12 @@ def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> lis
         candidatos.sort(key=lambda t: (stats.get(t["real"], {}).get("transferencias", 0),
                                        stats.get(t["real"], {}).get("ultimo_turno", ""),
                                        sorteo[t["real"]]))
+        if c == coord_actual:
+            # Quien ya fue marcado "no disponible" en esta ronda del grupo no vuelve a salir hasta la próxima;
+            # si ya nadie del grupo está disponible, el grupo se salta.
+            candidatos = [t for t in candidatos if t["real"] not in ronda_actual]
         por_coord[c] = candidatos
 
-    puntero = int(data.get("puntero_coordinador", 0)) % len(COORDINADORES)
     usados = {c: 0 for c in COORDINADORES}
     resultado = []
     while len(resultado) < cantidad:
@@ -461,6 +468,39 @@ def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> lis
         else:
             break  # No quedan asesores disponibles
     return resultado
+
+
+def _avanzar_rotacion(data: dict, agente: dict, tipo: str) -> str | None:
+    """
+    Mueve la rotación después de registrar el turno que tocaba.
+    - Transferencia: el grupo del coordinador cumplió su turno -> pasa al siguiente coordinador.
+    - No disponible: se queda en el mismo coordinador (siguiente asesor de su grupo). Si ya nadie del
+      grupo está disponible en esta ronda, pasa al siguiente coordinador.
+    Devuelve el coordinador que se quedó sin disponibles (para avisar), o None.
+    """
+    coord = agente["coordinador"]
+    no_disp = data.setdefault("no_disponibles_ronda", {})
+
+    def pasar_al_siguiente_coordinador():
+        siguiente = (COORDINADORES.index(coord) + 1) % len(COORDINADORES)
+        data["puntero_coordinador"] = siguiente
+        no_disp[coord] = []
+        no_disp[COORDINADORES[siguiente]] = []  # la ronda de cada grupo empieza limpia al llegarle el turno
+
+    if tipo == TIPO_TRANSFERIDO:
+        pasar_al_siguiente_coordinador()
+        return None
+    if data.get("puntero_coordinador") != COORDINADORES.index(coord):
+        no_disp[coord] = []  # el turno llegó a este grupo (p. ej. se saltó otro sin disponibles)
+    ronda = no_disp.setdefault(coord, [])
+    if agente["real"] not in ronda:
+        ronda.append(agente["real"])
+    activos = [t["real"] for t in data["turnos"] if t.get("activo") and t.get("coordinador") == coord]
+    if all(real in ronda for real in activos):
+        pasar_al_siguiente_coordinador()
+        return coord
+    data["puntero_coordinador"] = COORDINADORES.index(coord)
+    return None
 
 
 def _agente(data: dict, real: str) -> dict:
@@ -501,11 +541,12 @@ def _evento_log(tipo: str, agente: dict, agente_atc: str, siguientes: list, **ex
     }
 
 
-def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: str = "", call_id: str = "",
+def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: str = "",
                         motivo: str = "", forzar: bool = False) -> tuple[str, str]:
     """
     Registra el salto del TURNO DISPONIBLE que el ATC tenía en pantalla.
-    - tipo TIPO_TRANSFERIDO: cuenta como transferencia.  TIPO_NO_DISPONIBLE (un solo botón, sin motivo): no cuenta, pasa al siguiente.
+    - tipo TIPO_TRANSFERIDO: cuenta como transferencia y pasa al siguiente coordinador.
+    - TIPO_NO_DISPONIBLE (un solo botón, sin motivo): no cuenta; pasa al siguiente asesor del MISMO coordinador.
     - Se valida (con escritura atómica) que ese asesor siga siendo el turno disponible. Si otro ATC lo
       registró en esos segundos, devuelve 'cambio' para preguntar, en vez de asignar a otro en silencio.
     - forzar=True: el ATC confirma que SÍ transfirió a ese asesor; se registra marcado como solapado.
@@ -514,7 +555,7 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
     atc = atc_por_pin(pin)
     if not atc:
         return "pin", "❌ PIN incorrecto. Escribe tu PIN de ATC de 4 dígitos."
-    telefono_clean, call_id_clean, motivo_clean = telefono.strip(), call_id.strip(), motivo.strip()
+    telefono_clean, motivo_clean = telefono.strip(), motivo.strip()
     if tipo == TIPO_TRANSFERIDO and not telefono_clean:
         return "error", "⚠️ Debes ingresar el teléfono del cliente."
     if not real_visto:
@@ -533,12 +574,11 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
             return "cambio", f"⚠️ **{agente['alias']}** ya no es el turno disponible: otro ATC acaba de registrarle un salto.{ahora}"
 
         _registro_historial(
-            data, telefono=telefono_clean, call_id=call_id_clean, agente_atc=atc,
+            data, telefono=telefono_clean, agente_atc=atc,
             agente_ventas_real=agente["real"], agente_ventas_alias=agente["alias"],
             coordinador=agente["coordinador"], tipo=tipo, motivo=motivo_clean, solapado=not coincide,
         )
-        if coincide:  # la rotación de coordinadores avanza solo con el turno que tocaba
-            data["puntero_coordinador"] = (COORDINADORES.index(agente["coordinador"]) + 1) % len(COORDINADORES)
+        sin_disponibles = _avanzar_rotacion(data, agente, tipo) if coincide else None  # solo el turno que tocaba
         if tipo == TIPO_TRANSFERIDO:
             mensaje = f"Transferencia cliente {telefono_clean} a {agente['alias']} (ATC {atc})"
         else:
@@ -546,11 +586,13 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
         if not guardar_turnero(data, mensaje + (" [solapado]" if not coincide else "")):
             return "error", "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
         guardar_eventos_log_salto([_evento_log(tipo, agente, atc, siguientes, telefono=telefono_clean,
-                                               call_id=call_id_clean, motivo=motivo_clean, solapado=not coincide)])
+                                               motivo=motivo_clean, solapado=not coincide)])
         nuevo = calcular_siguientes(data, cantidad=1)
         sigue = f" Ahora el turno disponible es **{nuevo[0]['alias']}** ({nuevo[0]['coordinador']})." if nuevo else ""
         if tipo == TIPO_TRANSFERIDO:
             return "ok", f"✅ {atc}: transferencia registrada → **{agente['alias']}** (cliente `{telefono_clean}`).{sigue}"
+        if sin_disponibles:
+            sigue = f" Nadie del grupo de **{sin_disponibles}** está disponible: pasa al siguiente coordinador.{sigue}"
         return "ok", f"⏭️ {atc}: **{agente['alias']}** quedó como no disponible.{sigue}"
 
     resultado = ejecutar_con_reintentos(operacion)
@@ -581,7 +623,7 @@ def reasignar_al_mismo(pin: str, telefono: str) -> tuple[str, str]:
         if not previo:
             return "error", "❌ No se encontró registro previo para reasignar a este cliente."
         _registro_historial(
-            data, telefono=telefono_clean, call_id="", agente_atc=atc,
+            data, telefono=telefono_clean, agente_atc=atc,
             agente_ventas_real=previo["agente_ventas_real"], agente_ventas_alias=previo["agente_ventas_alias"],
             coordinador=COORDINADOR_POR_AGENTE.get(previo["agente_ventas_real"], ""), tipo=TIPO_REASIGNADO,
         )
@@ -689,6 +731,7 @@ def aplicar_reset_diario_si_corresponde():
         for t in data["turnos"]:
             t["activo"] = False
         data["puntero_coordinador"] = 0
+        data["no_disponibles_ronda"] = {}
         data["ultimo_reset_diario"] = hoy
         data["cambios_estado"].insert(0, {
             "fecha_hora": obtener_hora_colombia_str(),
@@ -810,7 +853,7 @@ if opcion_vista == "🎧 Transferir a Ventas":
                     st.session_state.pop("conflicto_turno", None)
                     _resultado_atc(*registrar_salto_atc(
                         TIPO_TRANSFERIDO, conflicto["pin"], conflicto["real"],
-                        conflicto["telefono"], conflicto["call_id"], forzar=True))
+                        conflicto["telefono"], forzar=True))
             with c2:
                 if st.button("No, la transfiero al nuevo turno", use_container_width=True):
                     st.session_state.pop("conflicto_turno", None)
@@ -821,7 +864,6 @@ if opcion_vista == "🎧 Transferir a Ventas":
             telefono_input = st.text_input(
                 "📱 Teléfono del Cliente:", key="input_telefono", placeholder="Ej: +573001234567, +14155552671..."
             )
-            call_id_input = st.text_input("🆔 ID de la llamada (opcional):", key="input_call_id")
             pin_input = st.text_input("🔑 Tu PIN de ATC:", type="password", max_chars=4, key="pin_atc")
 
             registro_previo = buscar_transferencia_previa(telefono_input) if telefono_input else None
@@ -836,12 +878,12 @@ if opcion_vista == "🎧 Transferir a Ventas":
                     _resultado_atc(*reasignar_al_mismo(pin_input, telefono_input))
 
             if st.button("✅ Registrar transferencia al turno disponible", type="primary", use_container_width=True):
-                codigo, msj = registrar_salto_atc(TIPO_TRANSFERIDO, pin_input, turno_visto, telefono_input, call_id_input)
+                codigo, msj = registrar_salto_atc(TIPO_TRANSFERIDO, pin_input, turno_visto, telefono_input)
                 if codigo == "cambio":
                     st.session_state["conflicto_turno"] = {
                         "mensaje": msj, "real": turno_visto, "pin": pin_input,
                         "alias": next((t["alias"] for t in USUARIOS_INICIALES if t["real"] == turno_visto), turno_visto),
-                        "telefono": telefono_input, "call_id": call_id_input,
+                        "telefono": telefono_input,
                     }
                     st.rerun()
                 _resultado_atc(codigo, msj)
@@ -910,7 +952,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.caption(
                 f"**Rotación:** {' → '.join(COORDINADORES)} y, dentro de cada coordinador, el asesor con "
                 "**menos transferencias hoy**; a igualdad, a quien hace más tiempo no le toca y luego sorteo del día. "
-                "**No disponible** no suma transferencias pero lo pasa al final de su grupo."
+                "El turno **se queda en el grupo del coordinador** hasta que uno de sus asesores reciba una transferencia: "
+                "**No disponible** pasa al siguiente asesor del mismo grupo (no suma transferencias) y solo cambia de "
+                "coordinador si nadie de su grupo está disponible."
             )
             filas = []
             for t in sorted(data_adm["turnos"], key=lambda x: (orden_turno.get(x["real"], 999), not x["activo"], x["alias"])):
