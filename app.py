@@ -55,7 +55,6 @@ if "limpiar_formulario" not in st.session_state:
 if st.session_state["limpiar_formulario"]:
     st.session_state["input_telefono"] = ""
     st.session_state["input_call_id"] = ""
-    st.session_state["motivo_nd"] = ""
     st.session_state["pin_atc"] = ""
     st.session_state["limpiar_formulario"] = False
 
@@ -506,7 +505,7 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
                         motivo: str = "", forzar: bool = False) -> tuple[str, str]:
     """
     Registra el salto del TURNO DISPONIBLE que el ATC tenía en pantalla.
-    - tipo TIPO_TRANSFERIDO: cuenta como transferencia.  TIPO_NO_DISPONIBLE: no cuenta, pasa al siguiente.
+    - tipo TIPO_TRANSFERIDO: cuenta como transferencia.  TIPO_NO_DISPONIBLE (un solo botón, sin motivo): no cuenta, pasa al siguiente.
     - Se valida (con escritura atómica) que ese asesor siga siendo el turno disponible. Si otro ATC lo
       registró en esos segundos, devuelve 'cambio' para preguntar, en vez de asignar a otro en silencio.
     - forzar=True: el ATC confirma que SÍ transfirió a ese asesor; se registra marcado como solapado.
@@ -518,8 +517,6 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
     telefono_clean, call_id_clean, motivo_clean = telefono.strip(), call_id.strip(), motivo.strip()
     if tipo == TIPO_TRANSFERIDO and not telefono_clean:
         return "error", "⚠️ Debes ingresar el teléfono del cliente."
-    if tipo == TIPO_NO_DISPONIBLE and len(motivo_clean) < 3:
-        return "error", "⚠️ Escribe el motivo (ej: No contesta, En llamada, En pausa)."
     if not real_visto:
         return "error", "⚠️ No hay un turno disponible en pantalla. Espera a que se actualice."
 
@@ -545,7 +542,7 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
         if tipo == TIPO_TRANSFERIDO:
             mensaje = f"Transferencia cliente {telefono_clean} a {agente['alias']} (ATC {atc})"
         else:
-            mensaje = f"No disponible: {agente['alias']} (ATC {atc}) - {motivo_clean[:60]}"
+            mensaje = f"No disponible: {agente['alias']} (ATC {atc})"
         if not guardar_turnero(data, mensaje + (" [solapado]" if not coincide else "")):
             return "error", "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
         guardar_eventos_log_salto([_evento_log(tipo, agente, atc, siguientes, telefono=telefono_clean,
@@ -849,14 +846,12 @@ if opcion_vista == "🎧 Transferir a Ventas":
                     st.rerun()
                 _resultado_atc(codigo, msj)
 
-            with st.expander("⏭️ El turno disponible no contesta / no está disponible"):
-                motivo_nd = st.text_input("Motivo:", placeholder="No contesta / En llamada / En pausa", key="motivo_nd")
-                if st.button("⏭️ Registrar no disponible y pasar al siguiente", use_container_width=True):
-                    codigo, msj = registrar_salto_atc(TIPO_NO_DISPONIBLE, pin_input, turno_visto, motivo=motivo_nd)
-                    if codigo == "cambio":
-                        st.info(msj + " No se registró nada.")
-                    else:
-                        _resultado_atc(codigo, msj, limpiar=False)
+            if st.button("⏭️ No contesta / no disponible: pasar al siguiente", use_container_width=True):
+                codigo, msj = registrar_salto_atc(TIPO_NO_DISPONIBLE, pin_input, turno_visto)
+                if codigo == "cambio":
+                    st.info(msj + " No se registró nada.")
+                else:
+                    _resultado_atc(codigo, msj, limpiar=False)
 
 # ------------------------------------------
 # VISTA 2: ADMINISTRADOR
