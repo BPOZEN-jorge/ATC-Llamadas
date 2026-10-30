@@ -1,3 +1,15 @@
 {
-    "saltos": []
+    "saltos": [
+        {
+            "fecha_hora": "2026-10-30 11:51:55",
+            "tipo": "REACTIVADO",
+            "nombre_real": "Alisson Correa Gaviria",
+            "alias": "Alisson",
+            "coordinador": "Paula",
+            "motivo": "Llegada / inicio de jornada",
+            "registrado_por": "Paula",
+            "siguientes_snapshot": [],
+            "id_evento": 1
+        }
+    ]
 }
