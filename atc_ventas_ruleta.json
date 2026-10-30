@@ -3,188 +3,276 @@
         {
             "posicion": 1,
             "real": "Evelin Acevedo Cortés",
-            "alias": "Gabriela"
+            "alias": "Gabriela",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 2,
             "real": "Sara Gómez Bayona",
-            "alias": "Sara Gómez"
+            "alias": "Sara Gómez",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 3,
             "real": "Janis Henao Vasco",
-            "alias": "María José"
+            "alias": "María José",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 4,
             "real": "Angie Valeria Quirama Hernández",
-            "alias": "Valeria Hernandez"
+            "alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 5,
             "real": "Juan Esteban Acevedo Garces",
-            "alias": "Juan Esteban"
+            "alias": "Juan Esteban",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 6,
             "real": "Paula Andrea Guzman Jaramillo",
-            "alias": "Paula"
+            "alias": "Paula",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 7,
             "real": "Johana Osorio Bedoya",
-            "alias": "Johana Sanchez"
+            "alias": "Johana Sanchez",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 8,
             "real": "Oscar José Llanos Mendinueta",
-            "alias": "Oscar"
+            "alias": "Oscar",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 9,
             "real": "Juan Sebastian Serna Sepulveda",
-            "alias": "Juan Sebastian"
+            "alias": "Juan Sebastian",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 10,
             "real": "Andrea Mileidy londoño Bedoya",
-            "alias": "Andrea Valverde"
+            "alias": "Andrea Valverde",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 11,
             "real": "Tomas Castaño Gómez",
-            "alias": "Tomas"
+            "alias": "Tomas",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 12,
             "real": "Alisson Correa Gaviria",
-            "alias": "Alisson"
+            "alias": "Alisson",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 13,
             "real": "Karen Herrera Gonzalez",
-            "alias": "Karen"
+            "alias": "Karen",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 14,
             "real": "Cristian David Acosta Montoya",
-            "alias": "Manuel Vasquez"
+            "alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 15,
             "real": "Omar David Barboza Carbonero",
-            "alias": "Omar"
+            "alias": "Omar",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 16,
             "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez"
+            "alias": "Flor Lopez",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 17,
             "real": "Manuela villegas Giraldo",
-            "alias": "Manuela Villegas"
+            "alias": "Manuela Villegas",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 18,
             "real": "Brayan Andrey Bustamante",
-            "alias": "Marcos Garcia"
+            "alias": "Marcos Garcia",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 19,
             "real": "Yarnedis Cecilia Urrutia Pérez",
-            "alias": "Cecilia López"
+            "alias": "Cecilia López",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 20,
             "real": "Ana Maria Sanchez Gamboa",
-            "alias": "Maria Sanchez"
+            "alias": "Maria Sanchez",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 21,
             "real": "Claudia Marcela Manco Vargas",
-            "alias": "Marcela"
+            "alias": "Marcela",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 22,
             "real": "Viviana Pacheco Córdoba",
-            "alias": "Viviana Gómez"
+            "alias": "Viviana Gómez",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 23,
             "real": "Tatiana Magreth Acevedo Marín",
-            "alias": "Tatiana"
+            "alias": "Tatiana",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 24,
             "real": "Yarlen Biviana Son Cedeño",
-            "alias": "Maria Rodriguez"
+            "alias": "Maria Rodriguez",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 25,
             "real": "Iris Sabiana Cano Cano",
-            "alias": "Maria Cano"
+            "alias": "Maria Cano",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 26,
             "real": "Carlos Alberto Herrera Cardeño",
-            "alias": "Carlos Herrera / Alberto Fernandez"
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 27,
             "real": "Yeismer Miranda Ramirez",
-            "alias": "Leo Miranda"
+            "alias": "Leo Miranda",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 28,
             "real": "Mateo Cano Hincapié",
-            "alias": "Antonio de la villa"
+            "alias": "Antonio de la villa",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 29,
             "real": "Dayana Botero Rojas",
-            "alias": "Isabel Botero"
+            "alias": "Isabel Botero",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 30,
             "real": "Libia Paola Romero Cantillo",
-            "alias": "Paola Romero"
+            "alias": "Paola Romero",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 31,
             "real": "Angie Vanessa García",
-            "alias": "Maria Antonia García"
+            "alias": "Maria Antonia García",
+            "coordinador": "Jose",
+            "activo": false
         },
         {
             "posicion": 32,
             "real": "Yesica Paola Lopez Arango",
-            "alias": "Yesica López"
+            "alias": "Yesica López",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 33,
             "real": "Gustavo Adolfo Barrientos Serna",
-            "alias": "Gustavo"
+            "alias": "Gustavo",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 34,
             "real": "Yesly Marilyn Carrero Rivera",
-            "alias": "Marilyn Carrero"
+            "alias": "Marilyn Carrero",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 35,
             "real": "María Karolina Viana Cancio",
-            "alias": "Karolina"
+            "alias": "Karolina",
+            "coordinador": "Victor",
+            "activo": false
         },
         {
             "posicion": 36,
             "real": "Linda Liceth Pérez Pineda",
-            "alias": "Linda Pérez / Elena Pérez"
+            "alias": "Linda Pérez / Elena Pérez",
+            "coordinador": "Paula",
+            "activo": false
         },
         {
             "posicion": 37,
             "real": "Luis Alberto Lozano Ibarra",
-            "alias": "Luis Lozano"
+            "alias": "Luis Lozano",
+            "coordinador": "Paula",
+            "activo": false
         }
     ],
-    "historial": []
+    "historial": [],
+    "reservas": {},
+    "puntero_coordinador": 0,
+    "cambios_estado": [
+        {
+            "fecha_hora": "2026-10-30 11:06:54",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "coordinador": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        }
+    ],
+    "ultimo_reset_diario": "2026-10-30"
 }
