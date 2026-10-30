@@ -21,14 +21,13 @@ st.set_page_config(
 )
 
 # ARCHIVOS DE PERSISTENCIA EN GITHUB
-FILE_ATC_VENTAS = "atc_ventas_ruleta.json"   # Fila, reservas, historial de transferencias y cambios de estado
+FILE_ATC_VENTAS = "atc_ventas_ruleta.json"   # Fila, historial de transferencias y cambios de estado
 FILE_LOG_SALTOS = "atc_saltos_log.json"      # Log independiente con la foto de la fila en cada salto
 
 # Rotación: primero el coordinador (en este orden) y luego un asesor suyo
 COORDINADORES = ["Jose", "Paula", "Victor"]
-RESERVA_MINUTOS = 5          # Si el ATC no confirma, el asesor se libera solo
-SIGUIENTES_A_MOSTRAR = 6     # Turno actual + próximos
-REFRESCO_SEGUNDOS = 10       # Actualización automática del panel de turnos
+SIGUIENTES_A_MOSTRAR = 6     # Turno disponible + próximos
+REFRESCO_SEGUNDOS = 5        # Actualización automática del panel de turnos
 MAX_INTENTOS_PIN = 5         # Intentos de PIN por sesión del ATC
 
 # Tipos de registro en el historial
@@ -57,6 +56,7 @@ if st.session_state["limpiar_formulario"]:
     st.session_state["input_telefono"] = ""
     st.session_state["input_call_id"] = ""
     st.session_state["motivo_nd"] = ""
+    st.session_state["pin_atc"] = ""
     st.session_state["limpiar_formulario"] = False
 
 # ==========================================
@@ -188,7 +188,7 @@ def sha_leido(file_path: str):
 def ejecutar_con_reintentos(operacion, intentos: int = 6):
     """
     Ejecuta una operación de lectura+escritura. Si otro usuario guardó en medio (ConflictoGithub),
-    se repite TODA la operación con datos frescos. Así dos ATC nunca reservan al mismo asesor.
+    se repite TODA la operación con datos frescos. Así nunca se pisan los saltos de dos ATC.
     """
     for _ in range(intentos):
         try:
@@ -231,10 +231,10 @@ def leer_json_github(file_path: str, default_payload: dict) -> dict:
     return data
 
 
-@st.cache_data(ttl=5, show_spinner=False)
+@st.cache_data(ttl=3, show_spinner=False)
 def leer_para_mostrar(file_path: str) -> dict | None:
     """
-    Lectura compartida entre todas las sesiones durante 5 s, solo para MOSTRAR (panel que se
+    Lectura compartida entre todas las sesiones durante 3 s, solo para MOSTRAR (panel que se
     refresca solo). Las acciones siempre leen fresco. Así no se agota el límite de la API de GitHub.
     """
     data, _ = _leer_contenido(file_path)
@@ -348,6 +348,7 @@ def obtener_log_saltos_df() -> pd.DataFrame:
         "Coordinador": s.get("coordinador", ""),
         "ATC": s.get("agente_atc", ""),
         "Motivo": s.get("motivo", ""),
+        "Solapado": "⚠️ Sí" if s.get("solapado") else "",
         "Registrado por": s.get("registrado_por", ""),
         "Siguientes en ese momento": " → ".join(s.get("siguientes_snapshot", [])),
     } for s in saltos]).astype(str)
@@ -360,7 +361,6 @@ def _default_turnero() -> dict:
     return {
         "turnos": [dict(u, activo=False) for u in USUARIOS_INICIALES],
         "historial": [],
-        "reservas": {},
         "puntero_coordinador": 0,
         "cambios_estado": [],
     }
@@ -372,7 +372,6 @@ def _normalizar_turnero(data: dict) -> dict:
     Cada agente toma su coordinador de la tabla; 'activo' por defecto es False.
     """
     data.setdefault("historial", [])
-    data.setdefault("reservas", {})
     data.setdefault("puntero_coordinador", 0)
     data.setdefault("cambios_estado", [])
     turnos = data.get("turnos") or [dict(u) for u in USUARIOS_INICIALES]
@@ -392,19 +391,6 @@ def obtener_turnero_fresco() -> dict:
 def obtener_turnero_para_mostrar() -> dict:
     data = leer_para_mostrar(FILE_ATC_VENTAS)
     return _normalizar_turnero(json.loads(json.dumps(data)) if data else _default_turnero())
-
-
-def reservas_vigentes(data: dict, ahora: str | None = None) -> dict:
-    ahora = ahora or obtener_hora_colombia_str()
-    return {real: r for real, r in data.get("reservas", {}).items() if r.get("expira", "") > ahora}
-
-
-def reserva_de_atc(data: dict, atc: str):
-    """(nombre_real, reserva) de la reserva vigente de este ATC, o (None, None)."""
-    for real, r in reservas_vigentes(data).items():
-        if r.get("agente_atc") == atc:
-            return real, r
-    return None, None
 
 
 def estadisticas_hoy(data: dict) -> dict:
@@ -448,14 +434,13 @@ def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> lis
     Próximos turnos (el primero es el TURNO ACTUAL):
     1) Coordinador en rotación Jose → Paula → Victor (se salta al que no tenga asesores disponibles).
     2) Dentro del coordinador: menos transferencias hoy → hace más tiempo que no le toca → sorteo del día.
-    Solo asesores ACTIVOS y SIN reserva vigente de otro ATC.
+    Solo asesores ACTIVOS.
     """
     stats = estadisticas_hoy(data)
-    reservados = set(reservas_vigentes(data))
     por_coord = {}
     for c in COORDINADORES:
         candidatos = [t for t in data["turnos"]
-                      if t.get("activo") and t.get("coordinador") == c and t["real"] not in reservados]
+                      if t.get("activo") and t.get("coordinador") == c]
         sorteo = _orden_del_dia(c, [t["real"] for t in candidatos])
         candidatos.sort(key=lambda t: (stats.get(t["real"], {}).get("transferencias", 0),
                                        stats.get(t["real"], {}).get("ultimo_turno", ""),
@@ -479,10 +464,6 @@ def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> lis
     return resultado
 
 
-def _limpiar_reservas_vencidas(data: dict):
-    data["reservas"] = reservas_vigentes(data)
-
-
 def _agente(data: dict, real: str) -> dict:
     return next(t for t in data["turnos"] if t["real"] == real)
 
@@ -494,138 +475,89 @@ def _registro_historial(data: dict, **campos) -> dict:
 
 
 # ==========================================
-# ACCIONES DEL ATC: TOMAR TURNO, CONFIRMAR, NO DISPONIBLE, CANCELAR
+# ACCIONES DEL ATC: REGISTRAR EL SALTO CON SU PIN
 # ==========================================
-def _reservar_siguiente(data: dict, atc: str):
-    """Reserva el turno actual para este ATC dentro de 'data' (sin guardar). Devuelve el agente o None."""
-    siguientes = calcular_siguientes(data)
-    if not siguientes:
+def atc_por_pin(pin: str) -> str | None:
+    """El PIN identifica al ATC (secrets [pins]): no tiene que seleccionar su nombre."""
+    pin_clean = (pin or "").strip()
+    if not pin_clean:
         return None
-    elegido = siguientes[0]
-    ahora = obtener_fecha_hora_colombia()
-    data["reservas"][elegido["real"]] = {
-        "agente_atc": atc,
-        "desde": ahora.strftime("%Y-%m-%d %H:%M:%S"),
-        "expira": (ahora + timedelta(minutes=RESERVA_MINUTOS)).strftime("%Y-%m-%d %H:%M:%S"),
-        "coordinador": elegido["coordinador"],
-        "siguientes_snapshot": [f"{s['alias']} ({s['coordinador']})" for s in siguientes],
-    }
-    data["puntero_coordinador"] = (COORDINADORES.index(elegido["coordinador"]) + 1) % len(COORDINADORES)
-    return elegido
+    encontrado = None
+    for nombre, correcto in st.secrets.get("pins", {}).items():
+        if hmac.compare_digest(pin_clean.encode(), str(correcto).strip().encode()):
+            encontrado = nombre
+    return encontrado
 
 
-def _devolver_turno(data: dict, real: str):
-    """
-    Libera una reserva que no terminó en transferencia (cancelada, liberada por el admin o reasignación):
-    el asesor no perdió su turno, así que su coordinador vuelve a quedar de primero.
-    """
-    reserva = data["reservas"].pop(real, None)
-    _limpiar_reservas_vencidas(data)
-    if reserva and reserva.get("coordinador") in COORDINADORES:
-        data["puntero_coordinador"] = COORDINADORES.index(reserva["coordinador"])
-
-
-def tomar_turno(atc: str) -> tuple[bool, str]:
-    def operacion():
-        if not atc:
-            return False, "⚠️ Selecciona primero tu nombre de ATC."
-        data = obtener_turnero_fresco()
-        _limpiar_reservas_vencidas(data)
-        real, _ = reserva_de_atc(data, atc)
-        if real:
-            return True, f"ℹ️ Ya tienes reservado a **{_agente(data, real)['alias']}**."
-        elegido = _reservar_siguiente(data, atc)
-        if not elegido:
-            return False, "❌ No hay asesores activos disponibles en este momento."
-        if guardar_turnero(data, f"ATC {atc} toma turno: {elegido['alias']} ({elegido['coordinador']})"):
-            return True, f"✅ Turno reservado para ti: **{elegido['alias']}** ({elegido['coordinador']})."
-        return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
-    return ejecutar_con_reintentos(operacion)
-
-
-def _evento_log(tipo: str, agente: dict, reserva: dict, **extra) -> dict:
+def _evento_log(tipo: str, agente: dict, agente_atc: str, siguientes: list, **extra) -> dict:
     return {
         "tipo": tipo,
         "fecha_hora": obtener_hora_colombia_str(),
         "nombre_real": agente["real"],
         "alias": agente["alias"],
         "coordinador": agente.get("coordinador", ""),
-        "agente_atc": reserva.get("agente_atc", ""),
-        "siguientes_snapshot": reserva.get("siguientes_snapshot", []),
+        "agente_atc": agente_atc,
+        "siguientes_snapshot": [f"{s['alias']} ({s['coordinador']})" for s in siguientes],
         **extra,
     }
 
 
-def confirmar_transferencia(atc: str, telefono: str, call_id: str = "") -> tuple[bool, str]:
-    telefono_clean, call_id_clean = telefono.strip(), call_id.strip()
-    if not telefono_clean:
-        return False, "⚠️ Debes ingresar el teléfono del cliente."
+def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: str = "", call_id: str = "",
+                        motivo: str = "", forzar: bool = False) -> tuple[str, str]:
+    """
+    Registra el salto del TURNO DISPONIBLE que el ATC tenía en pantalla.
+    - tipo TIPO_TRANSFERIDO: cuenta como transferencia.  TIPO_NO_DISPONIBLE: no cuenta, pasa al siguiente.
+    - Se valida (con escritura atómica) que ese asesor siga siendo el turno disponible. Si otro ATC lo
+      registró en esos segundos, devuelve 'cambio' para preguntar, en vez de asignar a otro en silencio.
+    - forzar=True: el ATC confirma que SÍ transfirió a ese asesor; se registra marcado como solapado.
+    Devuelve (codigo, mensaje) con codigo 'ok' | 'cambio' | 'pin' | 'error'.
+    """
+    atc = atc_por_pin(pin)
+    if not atc:
+        return "pin", "❌ PIN incorrecto. Escribe tu PIN de ATC de 4 dígitos."
+    telefono_clean, call_id_clean, motivo_clean = telefono.strip(), call_id.strip(), motivo.strip()
+    if tipo == TIPO_TRANSFERIDO and not telefono_clean:
+        return "error", "⚠️ Debes ingresar el teléfono del cliente."
+    if tipo == TIPO_NO_DISPONIBLE and len(motivo_clean) < 3:
+        return "error", "⚠️ Escribe el motivo (ej: No contesta, En llamada, En pausa)."
+    if not real_visto:
+        return "error", "⚠️ No hay un turno disponible en pantalla. Espera a que se actualice."
 
     def operacion():
         data = obtener_turnero_fresco()
-        real, reserva = reserva_de_atc(data, atc)
-        if not real:
-            return False, "⚠️ Tu reserva venció o fue liberada. Toma turno de nuevo."
-        agente = _agente(data, real)
+        siguientes = calcular_siguientes(data)
+        actual = siguientes[0] if siguientes else None
+        agente = next((t for t in data["turnos"] if t["real"] == real_visto), None)
+        if not agente:
+            return "error", "❌ El asesor ya no está en la fila. Actualiza la página."
+        coincide = bool(actual) and actual["real"] == real_visto
+        if not coincide and not forzar:
+            ahora = f" Ahora el turno disponible es **{actual['alias']}** ({actual['coordinador']})." if actual else ""
+            return "cambio", f"⚠️ **{agente['alias']}** ya no es el turno disponible: otro ATC acaba de registrarle un salto.{ahora}"
+
         _registro_historial(
             data, telefono=telefono_clean, call_id=call_id_clean, agente_atc=atc,
-            agente_ventas_real=real, agente_ventas_alias=agente["alias"],
-            coordinador=agente["coordinador"], tipo=TIPO_TRANSFERIDO,
+            agente_ventas_real=agente["real"], agente_ventas_alias=agente["alias"],
+            coordinador=agente["coordinador"], tipo=tipo, motivo=motivo_clean, solapado=not coincide,
         )
-        del data["reservas"][real]
-        _limpiar_reservas_vencidas(data)
-        if not guardar_turnero(data, f"Transferencia cliente {telefono_clean} a {agente['alias']} (ATC {atc})"):
-            return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
-        guardar_eventos_log_salto([_evento_log(TIPO_TRANSFERIDO, agente, reserva,
-                                               telefono=telefono_clean, call_id=call_id_clean)])
-        return True, f"✅ Transferencia registrada: cliente `{telefono_clean}` → **{agente['alias']}** ({agente['coordinador']})."
-    return ejecutar_con_reintentos(operacion)
+        if coincide:  # la rotación de coordinadores avanza solo con el turno que tocaba
+            data["puntero_coordinador"] = (COORDINADORES.index(agente["coordinador"]) + 1) % len(COORDINADORES)
+        if tipo == TIPO_TRANSFERIDO:
+            mensaje = f"Transferencia cliente {telefono_clean} a {agente['alias']} (ATC {atc})"
+        else:
+            mensaje = f"No disponible: {agente['alias']} (ATC {atc}) - {motivo_clean[:60]}"
+        if not guardar_turnero(data, mensaje + (" [solapado]" if not coincide else "")):
+            return "error", "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
+        guardar_eventos_log_salto([_evento_log(tipo, agente, atc, siguientes, telefono=telefono_clean,
+                                               call_id=call_id_clean, motivo=motivo_clean, solapado=not coincide)])
+        nuevo = calcular_siguientes(data, cantidad=1)
+        sigue = f" Ahora el turno disponible es **{nuevo[0]['alias']}** ({nuevo[0]['coordinador']})." if nuevo else ""
+        if tipo == TIPO_TRANSFERIDO:
+            return "ok", f"✅ {atc}: transferencia registrada → **{agente['alias']}** (cliente `{telefono_clean}`).{sigue}"
+        return "ok", f"⏭️ {atc}: **{agente['alias']}** quedó como no disponible.{sigue}"
 
-
-def marcar_no_disponible(atc: str, motivo: str) -> tuple[bool, str]:
-    """El asesor reservado no está disponible: queda registrado y el ATC recibe al siguiente."""
-    motivo_clean = motivo.strip()
-    if len(motivo_clean) < 3:
-        return False, "⚠️ Escribe el motivo (ej: No contesta, En llamada, En pausa)."
-
-    def operacion():
-        data = obtener_turnero_fresco()
-        real, reserva = reserva_de_atc(data, atc)
-        if not real:
-            return False, "⚠️ Tu reserva venció o fue liberada. Toma turno de nuevo."
-        agente = _agente(data, real)
-        _registro_historial(
-            data, telefono="", call_id="", agente_atc=atc,
-            agente_ventas_real=real, agente_ventas_alias=agente["alias"],
-            coordinador=agente["coordinador"], tipo=TIPO_NO_DISPONIBLE, motivo=motivo_clean,
-        )
-        del data["reservas"][real]
-        _limpiar_reservas_vencidas(data)
-        siguiente = _reservar_siguiente(data, atc)
-        if not guardar_turnero(data, f"No disponible: {agente['alias']} (ATC {atc}) - {motivo_clean[:60]}"):
-            return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
-        guardar_eventos_log_salto([_evento_log(TIPO_NO_DISPONIBLE, agente, reserva, motivo=motivo_clean)])
-        if siguiente:
-            return True, (f"⏭️ **{agente['alias']}** quedó como no disponible. "
-                          f"Ahora tienes reservado a **{siguiente['alias']}** ({siguiente['coordinador']}).")
-        return True, f"⏭️ **{agente['alias']}** quedó como no disponible. No hay más asesores disponibles."
-    return ejecutar_con_reintentos(operacion)
-
-
-def cancelar_reserva(atc: str, real_objetivo: str | None = None, registrado_por: str = "") -> tuple[bool, str]:
-    """Libera la reserva del ATC (o una reserva puntual si lo hace el admin) sin registrar transferencia."""
-    def operacion():
-        data = obtener_turnero_fresco()
-        real = real_objetivo or reserva_de_atc(data, atc)[0]
-        if not real or real not in data["reservas"]:
-            return False, "ℹ️ No había reserva para liberar."
-        alias = _agente(data, real)["alias"]
-        _devolver_turno(data, real)
-        quien = f"admin {registrado_por}" if real_objetivo else f"ATC {atc}"
-        if guardar_turnero(data, f"Reserva liberada: {alias} ({quien})"):
-            return True, f"✅ Se liberó a **{alias}**: vuelve a estar disponible."
-        return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
-    return ejecutar_con_reintentos(operacion)
+    resultado = ejecutar_con_reintentos(operacion)
+    return ("error", resultado[1]) if resultado[0] is False else resultado
 
 
 def buscar_transferencia_previa(telefono: str) -> dict | None:
@@ -638,8 +570,11 @@ def buscar_transferencia_previa(telefono: str) -> dict | None:
                  and h.get("tipo") != TIPO_NO_DISPONIBLE), None)
 
 
-def reasignar_al_mismo(atc: str, telefono: str) -> tuple[bool, str]:
-    """Cliente recurrente: se envía a su asesor anterior. No mueve la rotación y libera la reserva del ATC."""
+def reasignar_al_mismo(pin: str, telefono: str) -> tuple[str, str]:
+    """Cliente recurrente: se envía a su asesor anterior. No mueve la rotación."""
+    atc = atc_por_pin(pin)
+    if not atc:
+        return "pin", "❌ PIN incorrecto. Escribe tu PIN de ATC de 4 dígitos."
     telefono_clean = telefono.strip()
 
     def operacion():
@@ -647,21 +582,18 @@ def reasignar_al_mismo(atc: str, telefono: str) -> tuple[bool, str]:
         previo = next((h for h in data["historial"] if h.get("telefono") == telefono_clean
                        and h.get("tipo") != TIPO_NO_DISPONIBLE), None)
         if not previo:
-            return False, "❌ No se encontró registro previo para reasignar a este cliente."
-        real_reservado, _ = reserva_de_atc(data, atc)
-        if real_reservado:
-            _devolver_turno(data, real_reservado)
-        _limpiar_reservas_vencidas(data)
+            return "error", "❌ No se encontró registro previo para reasignar a este cliente."
         _registro_historial(
             data, telefono=telefono_clean, call_id="", agente_atc=atc,
             agente_ventas_real=previo["agente_ventas_real"], agente_ventas_alias=previo["agente_ventas_alias"],
             coordinador=COORDINADOR_POR_AGENTE.get(previo["agente_ventas_real"], ""), tipo=TIPO_REASIGNADO,
         )
         if guardar_turnero(data, f"Reasignación cliente {telefono_clean} a {previo['agente_ventas_alias']} (ATC {atc})"):
-            return True, (f"✅ Cliente `{telefono_clean}` reasignado a **{previo['agente_ventas_alias']}**."
-                          + (" Tu turno reservado quedó libre." if real_reservado else ""))
-        return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
-    return ejecutar_con_reintentos(operacion)
+            return "ok", f"✅ {atc}: cliente `{telefono_clean}` reasignado a **{previo['agente_ventas_alias']}** (no mueve el turno)."
+        return "error", "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
+
+    resultado = ejecutar_con_reintentos(operacion)
+    return ("error", resultado[1]) if resultado[0] is False else resultado
 
 
 # ==========================================
@@ -702,8 +634,6 @@ def guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, regis
         for nombre, nuevo_activo in cambios:
             agente = _agente(data, nombre)
             agente["activo"] = nuevo_activo
-            if not nuevo_activo:
-                data["reservas"].pop(nombre, None)
             ev = {
                 "fecha_hora": now_col,
                 "tipo": TIPO_REACTIVADO if nuevo_activo else TIPO_INACTIVO,
@@ -749,7 +679,7 @@ def horas_activacion_hoy(data: dict) -> dict:
 def aplicar_reset_diario_si_corresponde():
     """
     En la PRIMERA carga de la app después de las 00:00 (hora Colombia) todos quedan inactivos,
-    se liberan las reservas y la rotación empieza otra vez por el primer coordinador.
+    y la rotación empieza otra vez por el primer coordinador.
     """
     hoy = hoy_colombia()
     if st.session_state.get("reset_diario_verificado") == hoy:
@@ -761,7 +691,6 @@ def aplicar_reset_diario_si_corresponde():
             return None
         for t in data["turnos"]:
             t["activo"] = False
-        data["reservas"] = {}
         data["puntero_coordinador"] = 0
         data["ultimo_reset_diario"] = hoy
         data["cambios_estado"].insert(0, {
@@ -803,40 +732,48 @@ def _hora(fecha: str) -> str:
 
 @st.fragment(run_every=REFRESCO_SEGUNDOS)
 def panel_turnos():
-    """Turno actual y siguientes. Se actualiza solo para que nadie vea un turno desactualizado."""
+    """Turno disponible y siguientes. Se actualiza solo para que nadie vea un turno desactualizado."""
     data = obtener_turnero_para_mostrar()
     siguientes = calcular_siguientes(data)
-    reservas = reservas_vigentes(data)
 
-    st.subheader("🎯 Turno actual y siguientes")
     if siguientes:
         actual = siguientes[0]
-        st.metric(label=f"TURNO ACTUAL · Coordinador {actual['coordinador']}", value=actual["alias"])
-        st.dataframe(pd.DataFrame([
-            {"#": i, "Asesor": s["alias"], "Coordinador": s["coordinador"],
-             "Estado": "🎯 Turno actual" if i == 1 else "En espera"}
-            for i, s in enumerate(siguientes, start=1)
-        ]), use_container_width=True, hide_index=True)
+        # Lo que el ATC tiene en pantalla: al registrar se valida que siga siendo el disponible.
+        st.session_state["turno_visto"] = actual["real"]
+        st.metric(label=f"🎯 TURNO DISPONIBLE · Coordinador {actual['coordinador']}", value=actual["alias"])
+        st.caption(f"👤 {actual['real']}")
+        if len(siguientes) > 1:
+            st.markdown("**Siguen:**")
+            st.dataframe(pd.DataFrame([
+                {"#": i, "Asesor": s["alias"], "Coordinador": s["coordinador"]}
+                for i, s in enumerate(siguientes[1:], start=2)
+            ]), use_container_width=True, hide_index=True)
     else:
+        st.session_state["turno_visto"] = None
         st.error("⚠️ No hay asesores activos disponibles en este momento.")
 
-    if reservas:
-        st.caption("🔒 **En proceso de transferencia (reservados):** " + " · ".join(
-            f"{_agente(data, real)['alias']} → ATC {r['agente_atc']} (desde {_hora(r['desde'])})"
-            for real, r in reservas.items()))
+    hoy = hoy_colombia()
+    ultimo = next((h for h in data["historial"] if str(h.get("fecha_hora", "")).startswith(hoy)
+                   and h.get("tipo") in (TIPO_TRANSFERIDO, TIPO_NO_DISPONIBLE)), None)
+    if ultimo:
+        st.caption(f"Último salto: **{ultimo['agente_ventas_alias']}** · {ultimo['tipo']} · "
+                   f"ATC {ultimo.get('agente_atc', '')} · {_hora(ultimo['fecha_hora'])}")
     st.caption(f"Actualizado: {obtener_hora_colombia_str()[11:]} · se refresca cada {REFRESCO_SEGUNDOS} s")
 
 
-def _mostrar_resultado(exito: bool, msj: str, limpiar: bool = False):
-    if exito:
+def _resultado_atc(codigo: str, msj: str, limpiar: bool = True):
+    if codigo == "ok":
+        st.session_state["intentos_pin"] = 0
         if limpiar:
             st.session_state["limpiar_formulario"] = True
         st.session_state["aviso_atc"] = msj
         st.rerun()
-    elif msj.startswith("ℹ️"):
-        st.info(msj)
-    else:
-        st.error(msj)
+    if codigo == "pin":
+        st.session_state["intentos_pin"] = st.session_state.get("intentos_pin", 0) + 1
+        if st.session_state["intentos_pin"] >= MAX_INTENTOS_PIN:
+            st.rerun()  # muestra el bloqueo de inmediato
+        msj += f" Intentos restantes: {MAX_INTENTOS_PIN - st.session_state['intentos_pin']}."
+    st.error(msj)
 
 
 # ------------------------------------------
@@ -853,93 +790,73 @@ if opcion_vista == "🎧 Transferir a Ventas":
     if aviso:
         st.success(aviso)
 
-    if st.session_state.pop("salir_atc", False):
-        st.session_state["input_agente_atc"] = ""
-    atc_seleccionado = st.selectbox("🎧 Tu nombre (ATC):", [""] + AGENTES_ATC_INICIALES, key="input_agente_atc")
+    # Turno que el ATC tenía en pantalla ANTES de pulsar (el panel se recalcula en esta misma ejecución)
+    turno_visto = st.session_state.get("turno_visto")
 
-    # Cada ATC se identifica con su PIN (secrets [pins]); sin PIN no puede tomar ni confirmar turnos.
-    atc_actual = atc_seleccionado if st.session_state.get("atc_verificado") == atc_seleccionado else ""
-    if atc_seleccionado and not atc_actual:
-        intentos = st.session_state.get("intentos_pin", 0)
-        if intentos >= MAX_INTENTOS_PIN:
-            st.error("🔒 Demasiados intentos fallidos. Recarga la página para intentarlo de nuevo.")
-        else:
-            with st.form("form_pin_atc", clear_on_submit=True):
-                pin_atc = st.text_input("🔑 Tu PIN de 4 dígitos:", type="password", max_chars=4)
-                entrar = st.form_submit_button("Ingresar", use_container_width=True)
-            if entrar:
-                pin_correcto = str(st.secrets.get("pins", {}).get(atc_seleccionado, "")).strip()
-                if not pin_correcto:
-                    st.error(f"⚠️ No hay un PIN configurado para **{atc_seleccionado}**. Pídeselo al administrador.")
-                elif hmac.compare_digest(pin_atc.strip().encode(), pin_correcto.encode()):
-                    st.session_state["atc_verificado"] = atc_seleccionado
-                    st.session_state["intentos_pin"] = 0
-                    st.rerun()
-                else:
-                    st.session_state["intentos_pin"] = intentos + 1
-                    st.error(f"❌ PIN incorrecto. Intentos restantes: {MAX_INTENTOS_PIN - intentos - 1}")
-    elif atc_actual:
-        if st.button("🚪 Salir / cambiar de ATC"):
-            st.session_state.pop("atc_verificado", None)
-            st.session_state["salir_atc"] = True
-            st.rerun()
-
-    st.markdown("---")
     col_info, col_form = st.columns([2, 3])
-
     with col_info:
         panel_turnos()
 
     with col_form:
-        st.subheader("📋 Tu transferencia")
-        data_atc = obtener_turnero_fresco() if atc_actual else None
-        real_reservado, reserva = reserva_de_atc(data_atc, atc_actual) if data_atc else (None, None)
+        conflicto = st.session_state.get("conflicto_turno")
+        bloqueado = st.session_state.get("intentos_pin", 0) >= MAX_INTENTOS_PIN
 
-        if not atc_actual:
-            st.info("👆 Selecciona tu nombre de ATC e ingresa tu PIN para tomar turnos.")
-        elif not real_reservado:
-            st.write(
-                "1. Cuando llegue la llamada, pulsa **Tomar turno**: el asesor queda reservado a tu nombre y "
-                "nadie más puede enviárselo.\n"
-                "2. Valida su disponibilidad y transfiere.\n"
-                "3. Confirma la transferencia (o márcalo como no disponible para recibir al siguiente)."
-            )
-            if st.button("📞 Tomar turno", type="primary", use_container_width=True):
-                _mostrar_resultado(*tomar_turno(atc_actual))
+        if bloqueado:
+            st.error("🔒 Demasiados PIN incorrectos. Recarga la página para intentarlo de nuevo.")
+        elif conflicto:
+            st.subheader("⚠️ El turno cambió")
+            st.warning(conflicto["mensaje"])
+            st.write(f"¿Ya le transferiste la llamada a **{conflicto['alias']}**?")
+            c1, c2 = st.columns(2)
+            with c1:
+                if st.button(f"Sí, la transferí a {conflicto['alias']}", type="primary", use_container_width=True):
+                    st.session_state.pop("conflicto_turno", None)
+                    _resultado_atc(*registrar_salto_atc(
+                        TIPO_TRANSFERIDO, conflicto["pin"], conflicto["real"],
+                        conflicto["telefono"], conflicto["call_id"], forzar=True))
+            with c2:
+                if st.button("No, la transfiero al nuevo turno", use_container_width=True):
+                    st.session_state.pop("conflicto_turno", None)
+                    st.rerun()
         else:
-            agente_res = _agente(data_atc, real_reservado)
-            st.success(
-                f"🔒 Tienes reservado a **{agente_res['alias']}** ({agente_res['real']}) · "
-                f"Coordinador **{agente_res['coordinador']}** · vence a las {_hora(reserva['expira'])}."
-            )
+            st.subheader("📋 Registrar el salto")
+            st.caption("Transfiere la llamada al **turno disponible** y registra aquí con tu PIN.")
             telefono_input = st.text_input(
                 "📱 Teléfono del Cliente:", key="input_telefono", placeholder="Ej: +573001234567, +14155552671..."
             )
             call_id_input = st.text_input("🆔 ID de la llamada (opcional):", key="input_call_id")
+            pin_input = st.text_input("🔑 Tu PIN de ATC:", type="password", max_chars=4, key="pin_atc")
 
             registro_previo = buscar_transferencia_previa(telefono_input) if telefono_input else None
             if registro_previo:
                 st.warning(
-                    f"⚠️ **¡Cliente recurrente detectado!** El número `{telefono_input.strip()}` ya fue transferido a "
+                    f"⚠️ **¡Cliente recurrente!** El número `{telefono_input.strip()}` ya fue transferido a "
                     f"**{registro_previo['agente_ventas_alias']}** ({registro_previo['agente_ventas_real']}) "
                     f"el `{registro_previo['fecha_hora']}`."
                 )
-                if st.button(f"🔄 Reasignar a {registro_previo['agente_ventas_alias']} (libera tu turno)",
+                if st.button(f"🔄 Reasignar a {registro_previo['agente_ventas_alias']} (no usa el turno)",
                              use_container_width=True):
-                    _mostrar_resultado(*reasignar_al_mismo(atc_actual, telefono_input), limpiar=True)
+                    _resultado_atc(*reasignar_al_mismo(pin_input, telefono_input))
 
-            if st.button(f"✅ Transferí a {agente_res['alias']}", type="primary", use_container_width=True):
-                _mostrar_resultado(*confirmar_transferencia(atc_actual, telefono_input, call_id_input), limpiar=True)
+            if st.button("✅ Registrar transferencia al turno disponible", type="primary", use_container_width=True):
+                codigo, msj = registrar_salto_atc(TIPO_TRANSFERIDO, pin_input, turno_visto, telefono_input, call_id_input)
+                if codigo == "cambio":
+                    st.session_state["conflicto_turno"] = {
+                        "mensaje": msj, "real": turno_visto, "pin": pin_input,
+                        "alias": next((t["alias"] for t in USUARIOS_INICIALES if t["real"] == turno_visto), turno_visto),
+                        "telefono": telefono_input, "call_id": call_id_input,
+                    }
+                    st.rerun()
+                _resultado_atc(codigo, msj)
 
-            with st.expander("⏭️ No está disponible / cancelar"):
+            with st.expander("⏭️ El turno disponible no contesta / no está disponible"):
                 motivo_nd = st.text_input("Motivo:", placeholder="No contesta / En llamada / En pausa", key="motivo_nd")
-                c1, c2 = st.columns(2)
-                with c1:
-                    if st.button("⏭️ No disponible: dame el siguiente", use_container_width=True):
-                        _mostrar_resultado(*marcar_no_disponible(atc_actual, motivo_nd), limpiar=True)
-                with c2:
-                    if st.button("↩️ Cancelar (no llegó la llamada)", use_container_width=True):
-                        _mostrar_resultado(*cancelar_reserva(atc_actual))
+                if st.button("⏭️ Registrar no disponible y pasar al siguiente", use_container_width=True):
+                    codigo, msj = registrar_salto_atc(TIPO_NO_DISPONIBLE, pin_input, turno_visto, motivo=motivo_nd)
+                    if codigo == "cambio":
+                        st.info(msj + " No se registró nada.")
+                    else:
+                        _resultado_atc(codigo, msj, limpiar=False)
 
 # ------------------------------------------
 # VISTA 2: ADMINISTRADOR
@@ -966,7 +883,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
     else:
         admin_nombre = st.sidebar.text_input(
             "👤 Tu nombre (admin)", key="admin_nombre", placeholder="Obligatorio para guardar cambios",
-            help="Queda registrado en cada activación, inactivación y reserva liberada.",
+            help="Queda registrado en cada activación e inactivación.",
         )
         if st.sidebar.button("Cerrar Sesión Admin", use_container_width=True):
             st.session_state.admin_logged = False
@@ -991,7 +908,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
             data_adm = obtener_turnero_fresco()
             stats = estadisticas_hoy(data_adm)
             activaciones = horas_activacion_hoy(data_adm)
-            reservas_adm = reservas_vigentes(data_adm)
             siguientes_adm = calcular_siguientes(data_adm, cantidad=len(data_adm["turnos"]))
             orden_turno = {s["real"]: i for i, s in enumerate(siguientes_adm, start=1)}
 
@@ -1005,10 +921,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
             for t in sorted(data_adm["turnos"], key=lambda x: (orden_turno.get(x["real"], 999), not x["activo"], x["alias"])):
                 s = stats.get(t["real"], {})
                 a = activaciones.get(t["real"], {})
-                r = reservas_adm.get(t["real"])
                 filas.append({
-                    "Turno": ("🎯 Actual" if orden_turno.get(t["real"]) == 1 else orden_turno.get(t["real"], "")) if not r else "🔒",
-                    "Estado": ("🔒 Reservado por " + r["agente_atc"]) if r else ("🟢 Activo" if t["activo"] else "🔴 Inactivo"),
+                    "Turno": "🎯 Disponible" if orden_turno.get(t["real"]) == 1 else orden_turno.get(t["real"], ""),
+                    "Estado": "🟢 Activo" if t["activo"] else "🔴 Inactivo",
                     "Coordinador": t["coordinador"],
                     "Alias": t["alias"],
                     "Nombre Real": t["real"],
@@ -1020,26 +935,6 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     "🔄 Reasignaciones hoy": s.get("reasignaciones", 0),
                 })
             st.dataframe(pd.DataFrame(filas).astype(str), use_container_width=True, hide_index=True)
-
-            if reservas_adm:
-                st.markdown("**🔒 Reservas en curso** (se liberan solas a los "
-                            f"{RESERVA_MINUTOS} min si el ATC no confirma)")
-                for real, r in reservas_adm.items():
-                    c1, c2 = st.columns([3, 1])
-                    c1.write(f"**{_agente(data_adm, real)['alias']}** → ATC {r['agente_atc']} · desde {_hora(r['desde'])} · vence {_hora(r['expira'])}")
-                    if c2.button("Liberar", key=f"liberar_{real}", use_container_width=True):
-                        nombre_ok, err = _validar_registrado_por(admin_nombre)
-                        if err:
-                            st.error(err)
-                        else:
-                            exito, msj = cancelar_reserva("", real_objetivo=real, registrado_por=nombre_ok)
-                            if exito:
-                                st.session_state["aviso_admin"] = msj
-                                st.rerun()
-                            elif msj.startswith("ℹ️"):
-                                st.info(msj)
-                            else:
-                                st.error(msj)
 
             st.markdown("---")
             st.subheader("🚪 Registrar Llegada")
@@ -1137,6 +1032,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     "coordinador": "Coordinador",
                     "tipo": "Tipo",
                     "motivo": "Motivo",
+                    "solapado": "⚠️ Solapado",
                     "fecha_hora": "Fecha / Hora (Colombia)",
                 }).astype(str)
                 tipos = ["Todos"] + sorted(df_historial["Tipo"].unique())
