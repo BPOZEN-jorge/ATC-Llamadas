@@ -54,7 +54,7 @@
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 9,
@@ -82,7 +82,7 @@
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 13,
@@ -265,6 +265,15 @@
     "puntero_coordinador": 0,
     "cambios_estado": [
         {
+            "fecha_hora": "2026-10-31 00:00:53",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "coordinador": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-10-30 11:52:20",
             "tipo": "REACTIVADO",
             "nombre_real": "Oscar José Llanos Mendinueta",
@@ -292,5 +301,6 @@
             "registrado_por": "Sistema"
         }
     ],
-    "ultimo_reset_diario": "2026-10-30"
+    "ultimo_reset_diario": "2026-10-31",
+    "no_disponibles_ronda": {}
 }
