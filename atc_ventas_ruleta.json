@@ -265,6 +265,15 @@
     "puntero_coordinador": 0,
     "cambios_estado": [
         {
+            "fecha_hora": "2026-11-01 00:14:19",
+            "tipo": "RESET_DIARIO",
+            "nombre_real": "TODOS",
+            "alias": "TODOS",
+            "coordinador": "",
+            "motivo": "Reset automático 00:00 (hora Colombia)",
+            "registrado_por": "Sistema"
+        },
+        {
             "fecha_hora": "2026-10-31 00:00:53",
             "tipo": "RESET_DIARIO",
             "nombre_real": "TODOS",
@@ -301,6 +310,6 @@
             "registrado_por": "Sistema"
         }
     ],
-    "ultimo_reset_diario": "2026-10-31",
+    "ultimo_reset_diario": "2026-11-01",
     "no_disponibles_ronda": {}
 }
