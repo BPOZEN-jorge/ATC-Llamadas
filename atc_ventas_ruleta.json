@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 5,
+            "fecha_hora": "2026-11-03 08:38:27",
+            "telefono": "",
+            "agente_atc": "Paula Andrea Vanegas Serna",
+            "agente_ventas_real": "Carlos Alberto Herrera Cardeño",
+            "agente_ventas_alias": "Carlos Herrera / Alberto Fernandez",
+            "coordinador": "Jose",
+            "tipo": "No disponible (saltado)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 4,
             "fecha_hora": "2026-11-03 08:33:02",
             "telefono": "658274610",
@@ -712,7 +724,9 @@
     ],
     "ultimo_reset_diario": "2026-11-03",
     "no_disponibles_ronda": {
-        "Jose": [],
+        "Jose": [
+            "Carlos Alberto Herrera Cardeño"
+        ],
         "Paula": [],
         "Victor": []
     }
