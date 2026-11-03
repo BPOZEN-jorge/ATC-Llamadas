@@ -2,6 +2,26 @@
     "saltos": [
         {
             "tipo": "Transferido (turno)",
+            "fecha_hora": "2026-11-03 13:39:14",
+            "nombre_real": "María Karolina Viana Cancio",
+            "alias": "Karolina",
+            "coordinador": "Victor",
+            "agente_atc": "Geraldine Arrieta",
+            "siguientes_snapshot": [
+                "Karolina (Victor)",
+                "Juan Esteban (Jose)",
+                "Marcela (Paula)",
+                "Karen (Victor)",
+                "Maria Antonia García (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)"
+            ],
+            "telefono": "+34613127918",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 48
+        },
+        {
+            "tipo": "Transferido (turno)",
             "fecha_hora": "2026-11-03 13:38:12",
             "nombre_real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
