@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 7,
+            "fecha_hora": "2026-11-03 08:39:13",
+            "telefono": "",
+            "agente_atc": "Paula Andrea Vanegas Serna",
+            "agente_ventas_real": "Yarnedis Cecilia Urrutia Pérez",
+            "agente_ventas_alias": "Cecilia López",
+            "coordinador": "Jose",
+            "tipo": "No disponible (saltado)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 6,
             "fecha_hora": "2026-11-03 08:38:56",
             "telefono": "",
@@ -738,7 +750,8 @@
     "no_disponibles_ronda": {
         "Jose": [
             "Carlos Alberto Herrera Cardeño",
-            "Dayana Botero Rojas"
+            "Dayana Botero Rojas",
+            "Yarnedis Cecilia Urrutia Pérez"
         ],
         "Paula": [],
         "Victor": []
