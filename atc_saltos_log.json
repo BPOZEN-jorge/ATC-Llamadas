@@ -2,6 +2,26 @@
     "saltos": [
         {
             "tipo": "Transferido (turno)",
+            "fecha_hora": "2026-11-03 13:56:55",
+            "nombre_real": "Angie Vanessa García",
+            "alias": "Maria Antonia García",
+            "coordinador": "Jose",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "siguientes_snapshot": [
+                "Maria Antonia García (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)",
+                "Gabriela (Victor)",
+                "Manuela Villegas (Jose)",
+                "Omar (Paula)",
+                "Yesica López (Victor)"
+            ],
+            "telefono": "+34600749116",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 52
+        },
+        {
+            "tipo": "Transferido (turno)",
             "fecha_hora": "2026-11-03 13:52:07",
             "nombre_real": "Karen Herrera Gonzalez",
             "alias": "Karen",
