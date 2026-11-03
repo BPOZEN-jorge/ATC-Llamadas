@@ -2,6 +2,26 @@
     "saltos": [
         {
             "tipo": "No disponible (saltado)",
+            "fecha_hora": "2026-11-03 08:38:57",
+            "nombre_real": "Dayana Botero Rojas",
+            "alias": "Isabel Botero",
+            "coordinador": "Jose",
+            "agente_atc": "Paula Andrea Vanegas Serna",
+            "siguientes_snapshot": [
+                "Isabel Botero (Jose)",
+                "Andrea Valverde (Paula)",
+                "Karolina (Victor)",
+                "Cecilia López (Jose)",
+                "Marcela (Paula)",
+                "Karen (Victor)"
+            ],
+            "telefono": "",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 44
+        },
+        {
+            "tipo": "No disponible (saltado)",
             "fecha_hora": "2026-11-03 08:38:28",
             "nombre_real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
