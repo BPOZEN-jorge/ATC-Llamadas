@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 4,
+            "fecha_hora": "2026-11-03 08:33:02",
+            "telefono": "658274610",
+            "agente_atc": "Raymar Carolina Ramírez Martínez",
+            "agente_ventas_real": "Angie Valeria Quirama Hernández",
+            "agente_ventas_alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 3,
             "fecha_hora": "2026-11-03 07:09:54",
             "telefono": "",
@@ -299,7 +311,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-03 05:42:22",
@@ -702,8 +714,6 @@
     "no_disponibles_ronda": {
         "Jose": [],
         "Paula": [],
-        "Victor": [
-            "Libia Paola Romero Cantillo"
-        ]
+        "Victor": []
     }
 }
