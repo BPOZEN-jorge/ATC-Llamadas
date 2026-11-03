@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 2,
+            "fecha_hora": "2026-11-03 06:55:42",
+            "telefono": "+34690783436",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Rosa Elvira Agamez López",
+            "agente_ventas_alias": "Flor Lopez",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 1,
             "fecha_hora": "2026-11-03 06:55:15",
             "telefono": "+34690783436",
@@ -275,7 +287,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-03 05:42:22",
@@ -677,6 +689,7 @@
     "ultimo_reset_diario": "2026-11-03",
     "no_disponibles_ronda": {
         "Jose": [],
-        "Paula": []
+        "Paula": [],
+        "Victor": []
     }
 }
