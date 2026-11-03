@@ -2,6 +2,26 @@
     "saltos": [
         {
             "tipo": "No disponible (saltado)",
+            "fecha_hora": "2026-11-03 08:39:14",
+            "nombre_real": "Yarnedis Cecilia Urrutia Pérez",
+            "alias": "Cecilia López",
+            "coordinador": "Jose",
+            "agente_atc": "Paula Andrea Vanegas Serna",
+            "siguientes_snapshot": [
+                "Cecilia López (Jose)",
+                "Andrea Valverde (Paula)",
+                "Karolina (Victor)",
+                "Oscar (Jose)",
+                "Marcela (Paula)",
+                "Karen (Victor)"
+            ],
+            "telefono": "",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 45
+        },
+        {
+            "tipo": "No disponible (saltado)",
             "fecha_hora": "2026-11-03 08:38:57",
             "nombre_real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
