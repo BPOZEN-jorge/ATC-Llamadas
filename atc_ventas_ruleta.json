@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 12,
+            "fecha_hora": "2026-11-03 13:41:34",
+            "telefono": "+34613127918",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Claudia Marcela Manco Vargas",
+            "agente_ventas_alias": "Marcela",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 11,
             "fecha_hora": "2026-11-03 13:40:53",
             "telefono": "+34613127918",
@@ -395,7 +407,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-03 05:42:22",
