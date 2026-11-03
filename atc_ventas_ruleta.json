@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 3,
+            "fecha_hora": "2026-11-03 07:09:54",
+            "telefono": "",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Libia Paola Romero Cantillo",
+            "agente_ventas_alias": "Paola Romero",
+            "coordinador": "Victor",
+            "tipo": "No disponible (saltado)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 2,
             "fecha_hora": "2026-11-03 06:55:42",
             "telefono": "+34690783436",
@@ -690,6 +702,8 @@
     "no_disponibles_ronda": {
         "Jose": [],
         "Paula": [],
-        "Victor": []
+        "Victor": [
+            "Libia Paola Romero Cantillo"
+        ]
     }
 }
