@@ -772,9 +772,9 @@ def _hora(fecha: str) -> str:
 
 @st.fragment(run_every=REFRESCO_SEGUNDOS)
 def panel_turnos():
-    """Turno disponible y siguientes. Se actualiza solo para que nadie vea un turno desactualizado."""
+    """Turno disponible. Se actualiza solo para que nadie vea un turno desactualizado."""
     data = obtener_turnero_para_mostrar()
-    siguientes = calcular_siguientes(data)
+    siguientes = calcular_siguientes(data, cantidad=1)
 
     if siguientes:
         actual = siguientes[0]
@@ -782,12 +782,6 @@ def panel_turnos():
         st.session_state["turno_visto"] = actual["real"]
         st.metric(label=f"🎯 TURNO DISPONIBLE · Coordinador {actual['coordinador']}", value=actual["alias"])
         st.caption(f"👤 {actual['real']}")
-        if len(siguientes) > 1:
-            st.markdown("**Siguen:**")
-            st.dataframe(pd.DataFrame([
-                {"#": i, "Asesor": s["alias"], "Coordinador": s["coordinador"]}
-                for i, s in enumerate(siguientes[1:], start=2)
-            ]), use_container_width=True, hide_index=True)
     else:
         st.session_state["turno_visto"] = None
         st.error("⚠️ No hay asesores activos disponibles en este momento.")
