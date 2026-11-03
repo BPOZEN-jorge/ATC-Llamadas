@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 9,
+            "fecha_hora": "2026-11-03 13:38:10",
+            "telefono": "+34613127918",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Andrea Mileidy londoño Bedoya",
+            "agente_ventas_alias": "Andrea Valverde",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 8,
             "fecha_hora": "2026-11-03 11:36:32",
             "telefono": "667849365",
@@ -359,7 +371,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-03 05:42:22",
