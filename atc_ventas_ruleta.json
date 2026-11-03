@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 16,
+            "fecha_hora": "2026-11-03 13:58:50",
+            "telefono": "+34600749116",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "agente_ventas_real": "Linda Liceth Pérez Pineda",
+            "agente_ventas_alias": "Linda Pérez / Elena Pérez",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 15,
             "fecha_hora": "2026-11-03 13:58:22",
             "telefono": "+34600749116",
@@ -441,7 +453,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-03 05:42:22",
