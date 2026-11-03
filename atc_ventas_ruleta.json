@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 18,
+            "fecha_hora": "2026-11-03 14:00:33",
+            "telefono": "+34600749116",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "agente_ventas_real": "Manuela villegas Giraldo",
+            "agente_ventas_alias": "Manuela Villegas",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 17,
             "fecha_hora": "2026-11-03 13:59:54",
             "telefono": "+34600749116",
@@ -465,7 +477,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-03 05:42:22",
