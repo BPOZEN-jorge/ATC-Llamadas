@@ -1,6 +1,26 @@
 {
     "saltos": [
         {
+            "tipo": "Transferido (turno)",
+            "fecha_hora": "2026-11-03 06:55:16",
+            "nombre_real": "Sara Gómez Bayona",
+            "alias": "Sara Gómez",
+            "coordinador": "Jose",
+            "agente_atc": "Nataly De castro Henao",
+            "siguientes_snapshot": [
+                "Sara Gómez (Jose)",
+                "Flor Lopez (Paula)",
+                "Paola Romero (Victor)",
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Valeria Hernandez (Victor)"
+            ],
+            "telefono": "+34690783436",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 40
+        },
+        {
             "fecha_hora": "2026-11-03 05:42:22",
             "tipo": "REACTIVADO",
             "nombre_real": "Yesica Paola Lopez Arango",
