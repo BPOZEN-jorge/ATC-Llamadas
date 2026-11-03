@@ -262,6 +262,16 @@
     ],
     "historial": [
         {
+            "id": 15,
+            "fecha_hora": "2026-11-03 13:58:22",
+            "telefono": "+34600749116",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "agente_ventas_real": "Angie Vanessa García",
+            "agente_ventas_alias": "Maria Antonia García",
+            "coordinador": "Jose",
+            "tipo": "Reasignado al Mismo Agente"
+        },
+        {
             "id": 14,
             "fecha_hora": "2026-11-03 13:56:53",
             "telefono": "+34600749116",
