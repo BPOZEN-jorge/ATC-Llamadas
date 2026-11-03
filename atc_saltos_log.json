@@ -2,6 +2,26 @@
     "saltos": [
         {
             "tipo": "No disponible (saltado)",
+            "fecha_hora": "2026-11-03 08:38:28",
+            "nombre_real": "Carlos Alberto Herrera Cardeño",
+            "alias": "Carlos Herrera / Alberto Fernandez",
+            "coordinador": "Jose",
+            "agente_atc": "Paula Andrea Vanegas Serna",
+            "siguientes_snapshot": [
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Karolina (Victor)",
+                "Isabel Botero (Jose)",
+                "Marcela (Paula)",
+                "Karen (Victor)"
+            ],
+            "telefono": "",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 43
+        },
+        {
+            "tipo": "No disponible (saltado)",
             "fecha_hora": "2026-11-03 07:09:55",
             "nombre_real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
