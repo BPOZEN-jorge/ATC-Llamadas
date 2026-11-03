@@ -2,6 +2,26 @@
     "saltos": [
         {
             "tipo": "Transferido (turno)",
+            "fecha_hora": "2026-11-03 13:40:54",
+            "nombre_real": "Juan Esteban Acevedo Garces",
+            "alias": "Juan Esteban",
+            "coordinador": "Jose",
+            "agente_atc": "Geraldine Arrieta",
+            "siguientes_snapshot": [
+                "Juan Esteban (Jose)",
+                "Marcela (Paula)",
+                "Karen (Victor)",
+                "Maria Antonia García (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)",
+                "Gabriela (Victor)"
+            ],
+            "telefono": "+34613127918",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 49
+        },
+        {
+            "tipo": "Transferido (turno)",
             "fecha_hora": "2026-11-03 13:39:14",
             "nombre_real": "María Karolina Viana Cancio",
             "alias": "Karolina",
