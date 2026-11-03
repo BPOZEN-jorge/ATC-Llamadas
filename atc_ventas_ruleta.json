@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 6,
+            "fecha_hora": "2026-11-03 08:38:56",
+            "telefono": "",
+            "agente_atc": "Paula Andrea Vanegas Serna",
+            "agente_ventas_real": "Dayana Botero Rojas",
+            "agente_ventas_alias": "Isabel Botero",
+            "coordinador": "Jose",
+            "tipo": "No disponible (saltado)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 5,
             "fecha_hora": "2026-11-03 08:38:27",
             "telefono": "",
@@ -725,7 +737,8 @@
     "ultimo_reset_diario": "2026-11-03",
     "no_disponibles_ronda": {
         "Jose": [
-            "Carlos Alberto Herrera Cardeño"
+            "Carlos Alberto Herrera Cardeño",
+            "Dayana Botero Rojas"
         ],
         "Paula": [],
         "Victor": []
