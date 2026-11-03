@@ -262,6 +262,18 @@
     ],
     "historial": [
         {
+            "id": 14,
+            "fecha_hora": "2026-11-03 13:56:53",
+            "telefono": "+34600749116",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "agente_ventas_real": "Angie Vanessa García",
+            "agente_ventas_alias": "Maria Antonia García",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "motivo": "",
+            "solapado": false
+        },
+        {
             "id": 13,
             "fecha_hora": "2026-11-03 13:52:05",
             "telefono": "669671916",
@@ -419,7 +431,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-03 05:42:22",
