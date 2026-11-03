@@ -2,6 +2,26 @@
     "saltos": [
         {
             "tipo": "Transferido (turno)",
+            "fecha_hora": "2026-11-03 13:41:35",
+            "nombre_real": "Claudia Marcela Manco Vargas",
+            "alias": "Marcela",
+            "coordinador": "Paula",
+            "agente_atc": "Geraldine Arrieta",
+            "siguientes_snapshot": [
+                "Marcela (Paula)",
+                "Karen (Victor)",
+                "Maria Antonia García (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)",
+                "Gabriela (Victor)",
+                "Manuela Villegas (Jose)"
+            ],
+            "telefono": "+34613127918",
+            "motivo": "",
+            "solapado": false,
+            "id_evento": 50
+        },
+        {
+            "tipo": "Transferido (turno)",
             "fecha_hora": "2026-11-03 13:40:54",
             "nombre_real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
