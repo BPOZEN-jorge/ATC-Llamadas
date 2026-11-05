@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 2,
+            "fecha_hora": "2026-11-05 09:39:59",
+            "telefono": "+34610343704",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Evelin Acevedo Cortés",
+            "agente_ventas_alias": "Gabriela",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)"
+            ]
+        },
+        {
             "id": 1,
             "fecha_hora": "2026-11-05 09:39:57",
             "telefono": "+34610343704",
@@ -281,7 +299,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
