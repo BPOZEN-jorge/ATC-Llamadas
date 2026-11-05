@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 4,
+            "fecha_hora": "2026-11-05 11:33:06",
+            "telefono": "+34634546765",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "agente_ventas_real": "Brayan Andrey Bustamante",
+            "agente_ventas_alias": "Marcos Garcia",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marcos Garcia (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Juan Esteban (Jose)"
+            ]
+        },
+        {
             "id": 3,
             "fecha_hora": "2026-11-05 11:27:02",
             "telefono": "+34651532259",
@@ -317,7 +335,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
