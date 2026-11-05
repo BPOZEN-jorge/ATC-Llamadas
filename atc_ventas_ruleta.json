@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 5,
+            "fecha_hora": "2026-11-05 13:52:33",
+            "telefono": "604 29 93 31",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Yesly Marilyn Carrero Rivera",
+            "agente_ventas_alias": "Marilyn Carrero",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marilyn Carrero (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Juan Esteban (Jose)",
+                "Johana Sanchez (Paula)"
+            ]
+        },
+        {
             "id": 4,
             "fecha_hora": "2026-11-05 11:33:06",
             "telefono": "+34634546765",
@@ -335,7 +353,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
