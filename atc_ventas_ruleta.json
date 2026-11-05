@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 3,
+            "fecha_hora": "2026-11-05 11:27:02",
+            "telefono": "+34651532259",
+            "agente_atc": "Yurley Palacios Córdoba",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)"
+            ]
+        },
+        {
             "id": 2,
             "fecha_hora": "2026-11-05 09:39:59",
             "telefono": "+34610343704",
@@ -299,7 +317,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
