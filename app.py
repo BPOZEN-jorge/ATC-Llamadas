@@ -40,6 +40,12 @@ TIPO_TRANSFERIDO_ANTERIOR = "Siguiente en Ruleta"   # Registros de la versión a
 TIPO_NO_DISPONIBLE = "No disponible (saltado)"       # No cuenta como transferencia, pero pasa al final de su grupo
 TIPO_REASIGNADO = "Reasignado al Mismo Agente"       # Cliente recurrente: no mueve la rotación
 TIPOS_QUE_CUENTAN = {TIPO_TRANSFERIDO, TIPO_TRANSFERIDO_ANTERIOR}
+TIPO_VISIBLE = {  # cómo se muestran los tipos guardados en el historial
+    "Transferido (turno)": "Asignación (turno)",
+    "Siguiente en Ruleta": "Asignación (versión anterior)",
+    "Reasignado al Mismo Agente": "Reasignación (cliente recurrente)",
+    "No disponible (saltado)": "No disponible (versión anterior)",
+}
 
 # Tipo de cambio de estado que marca una activación (en los cambios de IVR)
 TIPO_REACTIVADO = "REACTIVADO"
@@ -302,7 +308,8 @@ def estados_ivr(fresco: bool = False) -> dict:
 def _aplicar_estados(data: dict, estados: dict) -> dict:
     for t in data["turnos"]:
         t["activo"] = estados["activos"].get(t["real"], False)
-    data["_estados_error"] = bool(estados.get("error"))  # no se guarda: se quita antes de escribir
+    data["_estados_error"] = bool(estados.get("error"))  # no se guardan: se quitan antes de escribir
+    data["_cambios_ivr"] = estados.get("cambios", [])
     return data
 
 
@@ -369,11 +376,12 @@ def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, ret
 
 def guardar_turnero(data: dict, mensaje: str) -> bool:
     data.pop("_estados_error", None)
+    data.pop("_cambios_ivr", None)
     return escribir_json_github(FILE_ATC_VENTAS, data, mensaje, sha_esperado=sha_leido(FILE_ATC_VENTAS))
 
 
 # ==========================================
-# LOG DE SALTOS (FOTO DE LA FILA)
+# LOG DE ASIGNACIONES (FOTO DE LA FILA)
 # ==========================================
 def obtener_log_saltos_df(historial: list) -> pd.DataFrame:
     """
@@ -381,7 +389,7 @@ def obtener_log_saltos_df(historial: list) -> pd.DataFrame:
     rápido). Se agrega el log de la versión anterior (atc_saltos_log.json) para no perder nada.
     """
     filas = [{
-        "Tipo": h.get("tipo"),
+        "Tipo": TIPO_VISIBLE.get(h.get("tipo"), h.get("tipo")),
         "Fecha/Hora (Colombia)": h.get("fecha_hora"),
         "Teléfono": h.get("telefono", ""),
         "Agente (Alias)": h.get("agente_ventas_alias"),
@@ -393,7 +401,7 @@ def obtener_log_saltos_df(historial: list) -> pd.DataFrame:
     } for h in historial if h.get("siguientes_snapshot")]
     for s in (leer_para_mostrar(FILE_LOG_SALTOS) or {}).get("saltos", []):
         filas.append({
-            "Tipo": s.get("tipo"),
+            "Tipo": TIPO_VISIBLE.get(s.get("tipo"), s.get("tipo")),
             "Fecha/Hora (Colombia)": s.get("fecha_hora"),
             "Teléfono": s.get("telefono", ""),
             "Agente (Alias)": s.get("alias"),
@@ -477,43 +485,44 @@ def estadisticas_hoy(data: dict) -> dict:
     return stats
 
 
-def _orden_del_dia(coordinador: str, nombres: list) -> dict:
-    """Sorteo al azar de los asesores de cada coordinador, fijo durante el día (todos ven lo mismo)."""
-    orden = sorted(nombres)
-    random.Random(f"{hoy_colombia()}|{coordinador}").shuffle(orden)
-    return {n: i for i, n in enumerate(orden)}
-
-
-def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> list:
+def orden_turnero(turnos: list, cambios_ivr: list, datos_atc: dict, hoy: str) -> list:
     """
-    Próximos turnos (el primero es el TURNO DISPONIBLE):
-    1) Coordinador en rotación Jose → Paula → Victor. El turno se queda en el grupo del coordinador
-       hasta que alguien de ese grupo reciba una transferencia; solo pasa al siguiente coordinador si
-       nadie de su grupo está disponible (sin activos, o todos marcados "no disponible" en esta ronda).
-    2) Dentro del coordinador: menos transferencias hoy → hace más tiempo que no le toca → sorteo del día.
-    Solo asesores ACTIVOS. La lista de "siguen" supone que cada turno termina en transferencia.
+    ORDEN ÚNICO DEL TURNERO: esta función es idéntica en las apps IVR y ATC, así las dos muestran la misma fila.
+    Solo asesores ACTIVOS en IVR.
+    1) Coordinador en rotación COORDINADORES desde el coordinador en turno de ATC (si no tiene activos, se salta).
+    2) Dentro del coordinador: menos asignaciones hoy -> a quien hace más tiempo no le toca ->
+       orden de activación en IVR ("activo desde": quien se activó antes va primero) -> nombre.
+    Devuelve [{"real", "alias", "coordinador"}] en orden; el primero es el turno disponible.
     """
-    stats = estadisticas_hoy(data)
-    puntero = int(data.get("puntero_coordinador", 0)) % len(COORDINADORES)
-    coord_actual = COORDINADORES[puntero]
-    ronda_actual = set(data.get("no_disponibles_ronda", {}).get(coord_actual, []))
+    activo_desde = {}
+    for c in cambios_ivr:
+        fecha, nombre = str(c.get("fecha_hora", "")), c.get("nombre_real")
+        if c.get("tipo") == "REACTIVADO" and nombre and fecha.startswith(hoy):
+            activo_desde[nombre] = max(activo_desde.get(nombre, ""), fecha)
+
+    asignaciones, ultimo = {}, {}
+    for h in datos_atc.get("historial", []):
+        fecha, nombre, tipo = str(h.get("fecha_hora", "")), h.get("agente_ventas_real"), h.get("tipo")
+        if not nombre or not fecha.startswith(hoy):
+            continue
+        if tipo in ("Transferido (turno)", "Siguiente en Ruleta"):
+            asignaciones[nombre] = asignaciones.get(nombre, 0) + 1
+        if tipo in ("Transferido (turno)", "Siguiente en Ruleta", "No disponible (saltado)"):
+            ultimo[nombre] = max(ultimo.get(nombre, ""), fecha)
+
     por_coord = {}
     for c in COORDINADORES:
-        candidatos = [t for t in data["turnos"]
-                      if t.get("activo") and t.get("coordinador") == c]
-        sorteo = _orden_del_dia(c, [t["real"] for t in candidatos])
-        candidatos.sort(key=lambda t: (stats.get(t["real"], {}).get("transferencias", 0),
-                                       stats.get(t["real"], {}).get("ultimo_turno", ""),
-                                       sorteo[t["real"]]))
-        if c == coord_actual:
-            # Quien ya fue marcado "no disponible" en esta ronda del grupo no vuelve a salir hasta la próxima;
-            # si ya nadie del grupo está disponible, el grupo se salta.
-            candidatos = [t for t in candidatos if t["real"] not in ronda_actual]
+        candidatos = [t for t in turnos if t.get("activo", True) and COORDINADOR_POR_AGENTE.get(t["real"]) == c]
+        candidatos.sort(key=lambda t: (asignaciones.get(t["real"], 0), ultimo.get(t["real"], ""),
+                                       activo_desde.get(t["real"], "~"), t["real"]))
         por_coord[c] = candidatos
 
+    # Si ATC aún no hizo su reset de hoy, la rotación del día empieza igual por el primer coordinador
+    puntero = int(datos_atc.get("puntero_coordinador", 0)) if datos_atc.get("ultimo_reset_diario", "") >= hoy else 0
+    puntero %= len(COORDINADORES)
     usados = {c: 0 for c in COORDINADORES}
     resultado = []
-    while len(resultado) < cantidad:
+    while True:
         for salto in range(len(COORDINADORES)):
             c = COORDINADORES[(puntero + salto) % len(COORDINADORES)]
             if usados[c] < len(por_coord[c]):
@@ -523,41 +532,18 @@ def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> lis
                 puntero = (puntero + salto + 1) % len(COORDINADORES)
                 break
         else:
-            break  # No quedan asesores disponibles
-    return resultado
+            return resultado
 
 
-def _avanzar_rotacion(data: dict, agente: dict, tipo: str) -> str | None:
-    """
-    Mueve la rotación después de registrar el turno que tocaba.
-    - Transferencia: el grupo del coordinador cumplió su turno -> pasa al siguiente coordinador.
-    - No disponible: se queda en el mismo coordinador (siguiente asesor de su grupo). Si ya nadie del
-      grupo está disponible en esta ronda, pasa al siguiente coordinador.
-    Devuelve el coordinador que se quedó sin disponibles (para avisar), o None.
-    """
-    coord = agente["coordinador"]
-    no_disp = data.setdefault("no_disponibles_ronda", {})
+def calcular_siguientes(data: dict, cantidad: int = SIGUIENTES_A_MOSTRAR) -> list:
+    """Próximos turnos con el orden único (el mismo que muestra el admin de IVR)."""
+    return orden_turnero(data["turnos"], data.get("_cambios_ivr", []), data, hoy_colombia())[:cantidad]
 
-    def pasar_al_siguiente_coordinador():
-        siguiente = (COORDINADORES.index(coord) + 1) % len(COORDINADORES)
-        data["puntero_coordinador"] = siguiente
-        no_disp[coord] = []
-        no_disp[COORDINADORES[siguiente]] = []  # la ronda de cada grupo empieza limpia al llegarle el turno
 
-    if tipo == TIPO_TRANSFERIDO:
-        pasar_al_siguiente_coordinador()
-        return None
-    if data.get("puntero_coordinador") != COORDINADORES.index(coord):
-        no_disp[coord] = []  # el turno llegó a este grupo (p. ej. se saltó otro sin disponibles)
-    ronda = no_disp.setdefault(coord, [])
-    if agente["real"] not in ronda:
-        ronda.append(agente["real"])
-    activos = [t["real"] for t in data["turnos"] if t.get("activo") and t.get("coordinador") == coord]
-    if all(real in ronda for real in activos):
-        pasar_al_siguiente_coordinador()
-        return coord
-    data["puntero_coordinador"] = COORDINADORES.index(coord)
-    return None
+def _avanzar_rotacion(data: dict, agente: dict):
+    """Tras una asignación del turno disponible, el turno pasa al siguiente coordinador."""
+    data["puntero_coordinador"] = (COORDINADORES.index(agente["coordinador"]) + 1) % len(COORDINADORES)
+    data["no_disponibles_ronda"] = {}
 
 
 def _agente(data: dict, real: str) -> dict:
@@ -614,7 +600,7 @@ def asignar_cliente(pin: str, telefono: str, real_visto: str | None = None) -> t
             coordinador=agente["coordinador"], tipo=TIPO_TRANSFERIDO,
             siguientes_snapshot=[f"{x['alias']} ({x['coordinador']})" for x in siguientes],
         )
-        _avanzar_rotacion(data, agente, TIPO_TRANSFERIDO)
+        _avanzar_rotacion(data, agente)
         if not guardar_turnero(data, f"Asignación cliente {telefono_clean} a {agente['alias']} (ATC {atc})"):
             return "error", "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
         cambio = ""
@@ -874,7 +860,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
             "⚙️ Gestión de la Fila",
             "📊 Historial de Asignaciones",
             "👥 Cambios Activo / Inactivo",
-            "📜 Log de Saltos",
+            "📜 Log de Asignaciones",
             "🔎 Consulta",
         ])
 
@@ -911,8 +897,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
             st.subheader("📋 Fila actual")
             st.caption(
                 f"**Rotación:** {' → '.join(COORDINADORES)} y, dentro de cada coordinador, el asesor con "
-                "**menos asignaciones hoy**; a igualdad, a quien hace más tiempo no le toca y luego sorteo del día. "
-                "Solo participan los **activos en IVR**; si un coordinador no tiene activos, pasa al siguiente."
+                "**menos asignaciones hoy**; a igualdad, a quien hace más tiempo no le toca y luego **quien se activó "
+                "antes en IVR**. Solo participan los **activos en IVR**; si un coordinador no tiene activos, pasa al "
+                "siguiente. Es el mismo orden que muestra el admin del turnero IVR."
             )
             filas = []
             for t in sorted(data_adm["turnos"], key=lambda x: (orden_turno.get(x["real"], 999), not x["activo"], x["alias"])):
@@ -971,6 +958,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     "solapado": "⚠️ Solapado",
                     "fecha_hora": "Fecha / Hora (Colombia)",
                 }).drop(columns=["siguientes_snapshot"], errors="ignore").astype(str)
+                df_historial["Tipo"] = df_historial["Tipo"].map(lambda x: TIPO_VISIBLE.get(x, x))
                 tipos = ["Todos"] + sorted(df_historial["Tipo"].unique())
                 filtro = st.selectbox("Filtrar por tipo:", tipos, key="filtro_tipo_hist")
                 vista = df_historial if filtro == "Todos" else df_historial[df_historial["Tipo"] == filtro]
@@ -1015,7 +1003,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
         # TAB 4: LOG DE SALTOS
         # ------------------------------------------
         with tab_log:
-            st.subheader("📜 Log de Saltos")
+            st.subheader("📜 Log de Asignaciones")
             st.caption("Cada asignación, con la lista de siguientes en ese momento.")
             df_log = obtener_log_saltos_df(obtener_turnero_para_mostrar()["historial"])
             if df_log.empty:
@@ -1023,9 +1011,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
             else:
                 st.dataframe(df_log, use_container_width=True, hide_index=True)
                 st.download_button(
-                    label="📥 Descargar Log de Saltos (CSV)",
+                    label="📥 Descargar Log de Asignaciones (CSV)",
                     data=df_log.to_csv(index=False).encode("utf-8"),
-                    file_name=f"log_saltos_atc_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
+                    file_name=f"log_asignaciones_atc_{obtener_fecha_hora_colombia().strftime('%Y%m%d_%H%M')}.csv",
                     mime="text/csv",
                     use_container_width=True,
                 )
