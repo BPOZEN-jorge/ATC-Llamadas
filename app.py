@@ -2,11 +2,13 @@ import base64
 import hmac
 import json
 import random
+import threading
 import time as time_lib
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import pandas as pd
+import requests
 import streamlit as st
 from github import Github, GithubException
 
@@ -21,13 +23,14 @@ st.set_page_config(
 )
 
 # ARCHIVOS DE PERSISTENCIA EN GITHUB
-FILE_ATC_VENTAS = "atc_ventas_ruleta.json"   # Fila, historial de transferencias y cambios de estado
-FILE_LOG_SALTOS = "atc_saltos_log.json"      # Log independiente con la foto de la fila en cada salto
+FILE_ATC_VENTAS = "atc_ventas_ruleta.json"   # Fila, historial de asignaciones y rotación
+FILE_LOG_SALTOS = "atc_saltos_log.json"      # Log de la versión anterior (solo lectura)
+FILE_ESTADOS_IVR = "turnos_orden.json"       # En el repo de IVR: activo/inactivo (se gestiona en IVR)
 
 # Rotación: primero el coordinador (en este orden) y luego un asesor suyo
 COORDINADORES = ["Jose", "Paula", "Victor"]
 SIGUIENTES_A_MOSTRAR = 6     # Turno disponible + próximos
-REFRESCO_SEGUNDOS = 5        # Actualización automática del panel de turnos
+REFRESCO_SEGUNDOS = 2        # Actualización automática del panel de turnos
 MAX_INTENTOS_PIN = 5         # Intentos de PIN por sesión del ATC
 
 # Tipos de registro en el historial
@@ -37,11 +40,8 @@ TIPO_NO_DISPONIBLE = "No disponible (saltado)"       # No cuenta como transferen
 TIPO_REASIGNADO = "Reasignado al Mismo Agente"       # Cliente recurrente: no mueve la rotación
 TIPOS_QUE_CUENTAN = {TIPO_TRANSFERIDO, TIPO_TRANSFERIDO_ANTERIOR}
 
-# Tipos de cambio de estado
-TIPO_INACTIVO = "INACTIVO"
+# Tipo de cambio de estado que marca una activación (en los cambios de IVR)
 TIPO_REACTIVADO = "REACTIVADO"
-TIPO_RESET_DIARIO = "RESET_DIARIO"
-MOTIVO_LLEGADA = "Llegada / inicio de jornada"
 
 # ==========================================
 # INICIALIZACIÓN DE ESTADO PARA FORMULARIO
@@ -229,13 +229,78 @@ def leer_json_github(file_path: str, default_payload: dict) -> dict:
     return data
 
 
-@st.cache_data(ttl=3, show_spinner=False)
+@st.cache_resource(show_spinner=False)
+def _cache_lecturas() -> dict:
+    return {"lock": threading.Lock(), "items": {}}
+
+
+def leer_rapido(repo_name: str, file_path: str, max_edad: float = 1.0):
+    """
+    Lectura para MOSTRAR, compartida entre todas las sesiones, con petición condicional (ETag):
+    si el archivo no cambió, GitHub responde 304 y esa consulta NO gasta el límite de la API.
+    Como mucho una consulta por archivo cada `max_edad` segundos (0 = confirmar siempre con GitHub).
+    """
+    cache = _cache_lecturas()
+    clave = f"{repo_name}/{file_path}"
+    with cache["lock"]:
+        item = cache["items"].get(clave)
+        if item and time_lib.time() - item["t"] < max_edad:
+            return item["data"]
+        gh = st.secrets.get("github", {})
+        headers = {
+            "Authorization": f"Bearer {gh.get('token', '')}",
+            "Accept": "application/vnd.github.raw+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        }
+        if item:
+            headers["If-None-Match"] = item["etag"]
+        try:
+            r = requests.get(f"https://api.github.com/repos/{repo_name}/contents/{file_path}",
+                             params={"ref": gh.get("branch", "main")}, headers=headers, timeout=15)
+        except requests.RequestException:
+            if item:
+                return item["data"]  # sin conexión momentánea: se muestra lo último conocido
+            raise
+        if r.status_code == 304 and item:
+            item["t"] = time_lib.time()
+            return item["data"]
+        if r.status_code == 404:
+            return None
+        r.raise_for_status()
+        data = r.json()
+        cache["items"][clave] = {"etag": r.headers.get("ETag", ""), "data": data, "t": time_lib.time()}
+        return data
+
+
+def _invalidar_lectura(repo_name: str, file_path: str):
+    item = _cache_lecturas()["items"].get(f"{repo_name}/{file_path}")
+    if item:
+        item["t"] = 0
+
+
 def leer_para_mostrar(file_path: str) -> dict | None:
+    return leer_rapido(st.secrets["github"]["repo"], file_path)
+
+
+def estados_ivr(fresco: bool = False) -> dict | None:
     """
-    Lectura compartida entre todas las sesiones durante 3 s, solo para MOSTRAR (panel que se
-    refresca solo). Las acciones siempre leen fresco. Así no se agota el límite de la API de GitHub.
+    Estados activo/inactivo y cambios de estado desde el turnero IVR (repo [github].repo_ivr).
+    La activación/desactivación se gestiona SOLO en IVR; aquí se leen. None si no está configurado.
     """
-    data, _ = _leer_contenido(file_path)
+    repo_ivr = st.secrets.get("github", {}).get("repo_ivr", "")
+    if not repo_ivr:
+        return None
+    data = leer_rapido(repo_ivr, FILE_ESTADOS_IVR, max_edad=0 if fresco else 1.0) or {}
+    return {
+        "activos": {t["real"]: bool(t.get("activo", True)) for t in data.get("turnos", [])},
+        "cambios": data.get("cambios_estado", []),
+    }
+
+
+def _aplicar_estados(data: dict, estados: dict | None) -> dict:
+    if estados is not None:
+        for t in data["turnos"]:
+            t["activo"] = estados["activos"].get(t["real"], False)
     return data
 
 
@@ -261,7 +326,7 @@ def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, ret
                 branch=branch,
             )
             st.session_state[f"_sha_{file_path}"] = resultado["content"].sha
-            leer_para_mostrar.clear()
+            _invalidar_lectura(st.secrets["github"]["repo"], file_path)
             return True
         except GithubException as e:
             if e.status == 409 or (e.status == 422 and "sha" in str(e.data).lower()):
@@ -290,7 +355,7 @@ def escribir_json_github(file_path: str, payload: dict, mensaje_commit: str, ret
                     )
                 else:
                     raise ex
-            leer_para_mostrar.clear()
+            _invalidar_lectura(st.secrets["github"]["repo"], file_path)
             return True
         except GithubException as e:
             if intento < retries - 1:
@@ -305,51 +370,37 @@ def guardar_turnero(data: dict, mensaje: str) -> bool:
 
 
 # ==========================================
-# LOG INDEPENDIENTE DE SALTOS (FOTO DE LA FILA)
+# LOG DE SALTOS (FOTO DE LA FILA)
 # ==========================================
-def guardar_eventos_log_salto(eventos: list):
-    """Guarda uno o varios registros en atc_saltos_log.json (un solo commit)."""
-    if not eventos:
-        return
-    primero = eventos[0]
-    if len(eventos) == 1:
-        msg = f"Log {primero.get('tipo')}: {primero.get('alias')} - {str(primero.get('motivo', ''))[:60]}"
-    else:
-        msg = f"Log cambios de estado: {len(eventos)} agentes - {str(primero.get('motivo', ''))[:60]}"
-
-    # El log se reintenta por su cuenta: el cambio principal ya quedó guardado.
-    for _ in range(5):
-        log_actual = leer_json_github(FILE_LOG_SALTOS, {"saltos": []})
-        log_actual.setdefault("saltos", [])
-        for ev in eventos:
-            ev["id_evento"] = len(log_actual["saltos"]) + 1
-            log_actual["saltos"].insert(0, dict(ev))
-        try:
-            escribir_json_github(FILE_LOG_SALTOS, log_actual, msg, sha_esperado=sha_leido(FILE_LOG_SALTOS))
-            return
-        except ConflictoGithub:
-            time_lib.sleep(0.3 + random.random() * 0.7)
-    st.warning("⚠️ El cambio se guardó, pero no se pudo escribir en el log de saltos (mucha concurrencia).")
-
-
-def obtener_log_saltos_df() -> pd.DataFrame:
-    saltos = (leer_para_mostrar(FILE_LOG_SALTOS) or {}).get("saltos", [])
-    if not saltos:
-        return pd.DataFrame()
-    return pd.DataFrame([{
-        "ID Evento": s.get("id_evento"),
-        "Tipo": s.get("tipo"),
-        "Fecha/Hora (Colombia)": s.get("fecha_hora"),
-        "Teléfono": s.get("telefono", ""),
-        "Agente (Alias)": s.get("alias"),
-        "Agente (Real)": s.get("nombre_real"),
-        "Coordinador": s.get("coordinador", ""),
-        "ATC": s.get("agente_atc", ""),
-        "Motivo": s.get("motivo", ""),
-        "Solapado": "⚠️ Sí" if s.get("solapado") else "",
-        "Registrado por": s.get("registrado_por", ""),
-        "Siguientes en ese momento": " → ".join(s.get("siguientes_snapshot", [])),
-    } for s in saltos]).astype(str)
+def obtener_log_saltos_df(historial: list) -> pd.DataFrame:
+    """
+    Cada asignación guarda en el historial la lista de siguientes en ese momento (un solo guardado, más
+    rápido). Se agrega el log de la versión anterior (atc_saltos_log.json) para no perder nada.
+    """
+    filas = [{
+        "Tipo": h.get("tipo"),
+        "Fecha/Hora (Colombia)": h.get("fecha_hora"),
+        "Teléfono": h.get("telefono", ""),
+        "Agente (Alias)": h.get("agente_ventas_alias"),
+        "Agente (Real)": h.get("agente_ventas_real"),
+        "Coordinador": h.get("coordinador", ""),
+        "ATC": h.get("agente_atc", ""),
+        "Solapado": "⚠️ Sí" if h.get("solapado") else "",
+        "Siguientes en ese momento": " → ".join(h.get("siguientes_snapshot", [])),
+    } for h in historial if h.get("siguientes_snapshot")]
+    for s in (leer_para_mostrar(FILE_LOG_SALTOS) or {}).get("saltos", []):
+        filas.append({
+            "Tipo": s.get("tipo"),
+            "Fecha/Hora (Colombia)": s.get("fecha_hora"),
+            "Teléfono": s.get("telefono", ""),
+            "Agente (Alias)": s.get("alias"),
+            "Agente (Real)": s.get("nombre_real"),
+            "Coordinador": s.get("coordinador", ""),
+            "ATC": s.get("agente_atc", ""),
+            "Solapado": "⚠️ Sí" if s.get("solapado") else "",
+            "Siguientes en ese momento": " → ".join(s.get("siguientes_snapshot", [])),
+        })
+    return pd.DataFrame(filas).astype(str) if filas else pd.DataFrame()
 
 
 # ==========================================
@@ -383,12 +434,15 @@ def _normalizar_turnero(data: dict) -> dict:
 
 
 def obtener_turnero_fresco() -> dict:
-    return _normalizar_turnero(leer_json_github(FILE_ATC_VENTAS, _default_turnero()))
+    """Para registrar: turnero y estados de IVR confirmados con GitHub en este momento."""
+    data = _normalizar_turnero(leer_json_github(FILE_ATC_VENTAS, _default_turnero()))
+    return _aplicar_estados(data, estados_ivr(fresco=True))
 
 
 def obtener_turnero_para_mostrar() -> dict:
     data = leer_para_mostrar(FILE_ATC_VENTAS)
-    return _normalizar_turnero(json.loads(json.dumps(data)) if data else _default_turnero())
+    data = _normalizar_turnero(json.loads(json.dumps(data)) if data else _default_turnero())
+    return _aplicar_estados(data, estados_ivr())
 
 
 def estadisticas_hoy(data: dict) -> dict:
@@ -528,19 +582,6 @@ def atc_por_pin(pin: str) -> str | None:
     return encontrado
 
 
-def _evento_log(tipo: str, agente: dict, agente_atc: str, siguientes: list, **extra) -> dict:
-    return {
-        "tipo": tipo,
-        "fecha_hora": obtener_hora_colombia_str(),
-        "nombre_real": agente["real"],
-        "alias": agente["alias"],
-        "coordinador": agente.get("coordinador", ""),
-        "agente_atc": agente_atc,
-        "siguientes_snapshot": [f"{s['alias']} ({s['coordinador']})" for s in siguientes],
-        **extra,
-    }
-
-
 def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: str = "",
                         motivo: str = "", forzar: bool = False) -> tuple[str, str]:
     """
@@ -577,6 +618,7 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
             data, telefono=telefono_clean, agente_atc=atc,
             agente_ventas_real=agente["real"], agente_ventas_alias=agente["alias"],
             coordinador=agente["coordinador"], tipo=tipo, motivo=motivo_clean, solapado=not coincide,
+            siguientes_snapshot=[f"{x['alias']} ({x['coordinador']})" for x in siguientes],
         )
         sin_disponibles = _avanzar_rotacion(data, agente, tipo) if coincide else None  # solo el turno que tocaba
         if tipo == TIPO_TRANSFERIDO:
@@ -585,8 +627,6 @@ def registrar_salto_atc(tipo: str, pin: str, real_visto: str | None, telefono: s
             mensaje = f"No disponible: {agente['alias']} (ATC {atc})"
         if not guardar_turnero(data, mensaje + (" [solapado]" if not coincide else "")):
             return "error", "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
-        guardar_eventos_log_salto([_evento_log(tipo, agente, atc, siguientes, telefono=telefono_clean,
-                                               motivo=motivo_clean, solapado=not coincide)])
         nuevo = calcular_siguientes(data, cantidad=1)
         sigue = f" Ahora el turno disponible es **{nuevo[0]['alias']}** ({nuevo[0]['coordinador']})." if nuevo else ""
         if tipo == TIPO_TRANSFERIDO:
@@ -636,7 +676,7 @@ def reasignar_al_mismo(pin: str, telefono: str) -> tuple[str, str]:
 
 
 # ==========================================
-# ACTIVO / INACTIVO (ADMIN)
+# ESTADOS (SE GESTIONAN EN IVR) Y ADMIN
 # ==========================================
 def _validar_registrado_por(registrado_por: str):
     """Quien hace el cambio debe identificarse."""
@@ -646,62 +686,11 @@ def _validar_registrado_por(registrado_por: str):
     return nombre, None
 
 
-def guardar_cambios_estado_admin(estados_seleccionados: dict, motivo: str, registrado_por: str) -> tuple[bool, str]:
-    """
-    estados_seleccionados: {nombre_real: activo(bool)} SOLO con los interruptores que el admin movió.
-    Si otro admin ya lo dejó en ese estado, no se toca (no se duplica ni se revierte).
-    """
-    motivo_clean = motivo.strip()
-    registrado_por_clean, error = _validar_registrado_por(registrado_por)
-    if error:
-        return False, error
-
-    def operacion():
-        data = obtener_turnero_fresco()
-        estado_actual = {t["real"]: t["activo"] for t in data["turnos"]}
-        cambios = [(n, v) for n, v in estados_seleccionados.items() if n in estado_actual and estado_actual[n] != v]
-        if not cambios:
-            if estados_seleccionados:
-                return False, "ℹ️ No hay nada que guardar: esa(s) persona(s) ya estaban en ese estado (quizá otro admin lo hizo)."
-            return False, "ℹ️ No moviste ningún interruptor."
-        if len(motivo_clean) < 5:
-            return False, "⚠️ Debes escribir el motivo del cambio de estado (mínimo 5 caracteres)."
-
-        now_col = obtener_hora_colombia_str()
-        siguientes = [f"{s['alias']} ({s['coordinador']})" for s in calcular_siguientes(data)]
-        eventos = []
-        for nombre, nuevo_activo in cambios:
-            agente = _agente(data, nombre)
-            agente["activo"] = nuevo_activo
-            ev = {
-                "fecha_hora": now_col,
-                "tipo": TIPO_REACTIVADO if nuevo_activo else TIPO_INACTIVO,
-                "nombre_real": nombre,
-                "alias": agente["alias"],
-                "coordinador": agente["coordinador"],
-                "motivo": motivo_clean,
-                "registrado_por": registrado_por_clean,
-            }
-            data["cambios_estado"].insert(0, ev)
-            eventos.append(dict(ev, siguientes_snapshot=siguientes))
-
-        resumen = ", ".join(f"{e['alias']}→{'Activo' if e['tipo'] == TIPO_REACTIVADO else 'Inactivo'}" for e in eventos)
-        if guardar_turnero(data, f"Admin: estados ({resumen[:120]}) - Motivo: {motivo_clean[:60]}"):
-            guardar_eventos_log_salto(eventos)
-            return True, f"✅ Se guardaron {len(eventos)} cambio(s) de estado: {resumen}"
-        return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
-    return ejecutar_con_reintentos(operacion)
-
-
-def registrar_llegada(nombre_real: str, registrado_por: str) -> tuple[bool, str]:
-    return guardar_cambios_estado_admin({nombre_real: True}, MOTIVO_LLEGADA, registrado_por)
-
-
-def horas_activacion_hoy(data: dict) -> dict:
-    """llegada = primera activación de hoy; activo_desde = última activación de hoy."""
+def horas_activacion_hoy(cambios: list) -> dict:
+    """llegada = primera activación de hoy; activo_desde = última activación de hoy (cambios de IVR)."""
     hoy = hoy_colombia()
     horas = {}
-    for c in data.get("cambios_estado", []):
+    for c in cambios:
         fecha = str(c.get("fecha_hora", ""))
         nombre = c.get("nombre_real")
         if c.get("tipo") != TIPO_REACTIVADO or not nombre or not fecha.startswith(hoy):
@@ -717,8 +706,8 @@ def horas_activacion_hoy(data: dict) -> dict:
 # ==========================================
 def aplicar_reset_diario_si_corresponde():
     """
-    En la PRIMERA carga de la app después de las 00:00 (hora Colombia) todos quedan inactivos,
-    y la rotación empieza otra vez por el primer coordinador.
+    En la PRIMERA carga de la app después de las 00:00 (hora Colombia) la rotación empieza otra vez por el
+    primer coordinador. Los estados activo/inactivo los reinicia el turnero IVR.
     """
     hoy = hoy_colombia()
     if st.session_state.get("reset_diario_verificado") == hoy:
@@ -728,21 +717,10 @@ def aplicar_reset_diario_si_corresponde():
         data = obtener_turnero_fresco()
         if data.get("ultimo_reset_diario", "") >= hoy:
             return None
-        for t in data["turnos"]:
-            t["activo"] = False
         data["puntero_coordinador"] = 0
         data["no_disponibles_ronda"] = {}
         data["ultimo_reset_diario"] = hoy
-        data["cambios_estado"].insert(0, {
-            "fecha_hora": obtener_hora_colombia_str(),
-            "tipo": TIPO_RESET_DIARIO,
-            "nombre_real": "TODOS",
-            "alias": "TODOS",
-            "coordinador": "",
-            "motivo": "Reset automático 00:00 (hora Colombia)",
-            "registrado_por": "Sistema",
-        })
-        return guardar_turnero(data, f"Auto: Reset diario 00:00 - todos inactivos ({hoy})")
+        return guardar_turnero(data, f"Auto: Reset diario 00:00 - rotación desde {COORDINADORES[0]} ({hoy})")
 
     resultado = ejecutar_con_reintentos(operacion)
     if resultado is True or resultado is None:  # None = ya estaba hecho hoy
@@ -914,7 +892,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
     else:
         admin_nombre = st.sidebar.text_input(
             "👤 Tu nombre (admin)", key="admin_nombre", placeholder="Obligatorio para guardar cambios",
-            help="Queda registrado en cada activación e inactivación.",
+            help="Queda registrado al vaciar el historial.",
         )
         if st.sidebar.button("Cerrar Sesión Admin", use_container_width=True):
             st.session_state.admin_logged = False
@@ -937,8 +915,12 @@ elif opcion_vista == "🛡️ Vista Administrador":
         # ------------------------------------------
         with tab_gestion:
             data_adm = obtener_turnero_fresco()
+            estados_adm = estados_ivr()
+            if estados_adm is None:
+                st.warning("⚠️ Falta `repo_ivr` en la sección [github] de los secrets: los estados activo/inactivo "
+                           "no se están leyendo del turnero IVR.")
             stats = estadisticas_hoy(data_adm)
-            activaciones = horas_activacion_hoy(data_adm)
+            activaciones = horas_activacion_hoy(estados_adm["cambios"] if estados_adm else [])
             siguientes_adm = calcular_siguientes(data_adm, cantidad=len(data_adm["turnos"]))
             orden_turno = {s["real"]: i for i, s in enumerate(siguientes_adm, start=1)}
 
@@ -969,68 +951,8 @@ elif opcion_vista == "🛡️ Vista Administrador":
                 })
             st.dataframe(pd.DataFrame(filas).astype(str), use_container_width=True, hide_index=True)
 
-            st.markdown("---")
-            st.subheader("🚪 Registrar Llegada")
-            st.caption("A las 00:00 (hora Colombia) todos quedan inactivos. Activa a cada persona cuando llegue.")
-            inactivos = [t for t in data_adm["turnos"] if not t["activo"]]
-            if not inactivos:
-                st.success("✅ Todos los asesores están activos.")
-            else:
-                for coord in COORDINADORES:
-                    del_coord = sorted([t for t in inactivos if t["coordinador"] == coord], key=lambda x: x["alias"].lower())
-                    if not del_coord:
-                        continue
-                    st.markdown(f"**{coord}**")
-                    cols = st.columns(3)
-                    for i, t in enumerate(del_coord):
-                        with cols[i % 3]:
-                            if st.button(f"✅ {t['alias']}", key=f"llegada_{t['real']}", use_container_width=True, help=t["real"]):
-                                exito, msj = registrar_llegada(t["real"], admin_nombre)
-                                if exito:
-                                    st.toast(f"{t['alias']} activado/a")
-                                    st.rerun()
-                                elif msj.startswith("ℹ️"):
-                                    st.info(f"{t['alias']} ya estaba activo/a (otro admin lo activó). Se actualizó la vista.")
-                                else:
-                                    st.error(msj)
-
-            st.markdown("---")
-            st.subheader("👥 Marcar Activo / Inactivo")
-            with st.expander("Ver y gestionar estados", expanded=False):
-                # Solo se envían los interruptores que ESTE admin movió y se sincronizan con el estado real,
-                # para que un guardado nunca revierta lo que otro admin hizo mientras tanto.
-                estados_seleccionados = {}
-                for coord in COORDINADORES:
-                    st.markdown(f"**{coord}**")
-                    for t in sorted([x for x in data_adm["turnos"] if x["coordinador"] == coord], key=lambda x: x["alias"].lower()):
-                        k_toggle, k_base = f"toggle_agente_{t['real']}", f"base_agente_{t['real']}"
-                        if st.session_state.get(k_base) != t["activo"]:
-                            st.session_state[k_base] = t["activo"]
-                            st.session_state[k_toggle] = t["activo"]
-                        col_name, col_status = st.columns([3, 1])
-                        with col_name:
-                            st.write(f"**{t['alias']}** ({t['real']})")
-                        with col_status:
-                            nuevo = st.toggle("Activo" if t["activo"] else "Inactivo", key=k_toggle)
-                        if nuevo != t["activo"]:
-                            estados_seleccionados[t["real"]] = nuevo
-                if estados_seleccionados:
-                    st.caption("Cambios pendientes por guardar: " + ", ".join(
-                        f"{_agente(data_adm, n)['alias']}→{'Activo' if v else 'Inactivo'}" for n, v in estados_seleccionados.items()))
-                motivo_estado = st.text_input(
-                    "Motivo del cambio (obligatorio):",
-                    placeholder="Ej: Almuerzo / Capacitación / Terminó jornada / Regresó de pausa",
-                    key="motivo_estado",
-                )
-                if st.button("💾 Guardar Cambios de Estado", type="primary", use_container_width=True):
-                    exito, msj = guardar_cambios_estado_admin(estados_seleccionados, motivo_estado, admin_nombre)
-                    if exito:
-                        st.session_state["aviso_admin"] = msj
-                        st.rerun()
-                    elif msj.startswith("ℹ️"):
-                        st.info(msj)
-                    else:
-                        st.error(msj)
+            st.info("👥 **Activo / inactivo, llegadas y pausas se gestionan en el turnero IVR** (Vista Administrador). "
+                    "Aquí se reflejan en segundos.")
 
             st.markdown("---")
             st.subheader("🗑️ Limpiar Historial")
@@ -1067,7 +989,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     "motivo": "Motivo",
                     "solapado": "⚠️ Solapado",
                     "fecha_hora": "Fecha / Hora (Colombia)",
-                }).astype(str)
+                }).drop(columns=["siguientes_snapshot"], errors="ignore").astype(str)
                 tipos = ["Todos"] + sorted(df_historial["Tipo"].unique())
                 filtro = st.selectbox("Filtrar por tipo:", tipos, key="filtro_tipo_hist")
                 vista = df_historial if filtro == "Todos" else df_historial[df_historial["Tipo"] == filtro]
@@ -1084,8 +1006,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
         # TAB 3: CAMBIOS DE ESTADO
         # ------------------------------------------
         with tab_estados:
-            st.subheader("👥 Historial de Cambios Activo / Inactivo")
-            cambios = obtener_turnero_para_mostrar()["cambios_estado"]
+            st.subheader("👥 Historial de Cambios Activo / Inactivo (turnero IVR)")
+            st.caption("Solo lectura: los cambios se hacen en la Vista Administrador del turnero IVR.")
+            cambios = (estados_ivr() or {}).get("cambios", [])
             if not cambios:
                 st.info("Aún no se han registrado cambios de estado.")
             else:
@@ -1111,9 +1034,9 @@ elif opcion_vista == "🛡️ Vista Administrador":
         # TAB 4: LOG DE SALTOS
         # ------------------------------------------
         with tab_log:
-            st.subheader("📜 Log de Saltos (`atc_saltos_log.json`)")
-            st.caption("Cada transferencia, no disponible y cambio de estado, con la lista de siguientes en ese momento.")
-            df_log = obtener_log_saltos_df()
+            st.subheader("📜 Log de Saltos")
+            st.caption("Cada transferencia y no disponible, con la lista de siguientes en ese momento.")
+            df_log = obtener_log_saltos_df(obtener_turnero_para_mostrar()["historial"])
             if df_log.empty:
                 st.info("Aún no hay registros en el log.")
             else:
