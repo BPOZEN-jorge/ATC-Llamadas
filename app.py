@@ -16,7 +16,7 @@ from github import Github, GithubException
 # CONFIGURACIÓN DE PÁGINA
 # ==========================================
 st.set_page_config(
-    page_title="Turnero de Transferencias ATC a Ventas",
+    page_title="Turnero de Asignaciones ATC a Ventas",
     page_icon="📞",
     layout="wide",
     initial_sidebar_state="expanded",
