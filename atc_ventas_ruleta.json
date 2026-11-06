@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 15,
+            "fecha_hora": "2026-11-06 10:10:17",
+            "telefono": "+34603645936",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "agente_ventas_real": "Mateo Cano Hincapié",
+            "agente_ventas_alias": "Antonio de la villa",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Gustavo (Victor)",
+                "Oscar (Jose)",
+                "Alisson (Paula)",
+                "Karolina (Victor)"
+            ]
+        },
+        {
             "id": 14,
             "fecha_hora": "2026-11-06 09:00:57",
             "telefono": "+34678143768",
@@ -515,7 +533,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
