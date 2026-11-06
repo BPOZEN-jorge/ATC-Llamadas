@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 12,
+            "fecha_hora": "2026-11-06 08:35:43",
+            "telefono": "+34655747617",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Yarnedis Cecilia Urrutia Pérez",
+            "agente_ventas_alias": "Cecilia López",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Cecilia López (Jose)",
+                "Marcos Garcia (Paula)",
+                "Leo Miranda (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Gustavo (Victor)"
+            ]
+        },
+        {
             "id": 11,
             "fecha_hora": "2026-11-06 07:33:30",
             "telefono": "+34910884778",
@@ -461,7 +479,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
