@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 14,
+            "fecha_hora": "2026-11-06 09:00:57",
+            "telefono": "+34678143768",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Yeismer Miranda Ramirez",
+            "agente_ventas_alias": "Leo Miranda",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Leo Miranda (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Gustavo (Victor)",
+                "Oscar (Jose)",
+                "Alisson (Paula)"
+            ]
+        },
+        {
             "id": 13,
             "fecha_hora": "2026-11-06 08:39:25",
             "telefono": "34606164721",
@@ -497,7 +515,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
