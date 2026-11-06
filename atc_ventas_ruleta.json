@@ -47,21 +47,21 @@
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 8,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 9,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 10,
@@ -82,7 +82,7 @@
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 13,
@@ -117,7 +117,7 @@
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 18,
@@ -138,21 +138,21 @@
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 21,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 22,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 23,
@@ -201,7 +201,7 @@
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 30,
@@ -222,14 +222,14 @@
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 33,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 34,
@@ -243,7 +243,7 @@
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 36,
@@ -261,6 +261,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 8,
+            "fecha_hora": "2026-11-06 05:33:21",
+            "telefono": "+34937538640",
+            "agente_atc": "Camila Blandon",
+            "agente_ventas_real": "Yesly Marilyn Carrero Rivera",
+            "agente_ventas_alias": "Marilyn Carrero",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marilyn Carrero (Victor)",
+                "Sara Gómez (Jose)",
+                "Paula (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Marcos Garcia (Paula)"
+            ]
+        },
         {
             "id": 7,
             "fecha_hora": "2026-11-06 04:36:08",
@@ -389,7 +407,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
