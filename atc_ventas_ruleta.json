@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 11,
+            "fecha_hora": "2026-11-06 07:33:30",
+            "telefono": "+34910884778",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Evelin Acevedo Cortés",
+            "agente_ventas_alias": "Gabriela",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Marcos Garcia (Paula)",
+                "Leo Miranda (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)"
+            ]
+        },
+        {
             "id": 10,
             "fecha_hora": "2026-11-06 07:22:08",
             "telefono": "+34632704468",
@@ -443,7 +461,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
