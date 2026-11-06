@@ -19,21 +19,21 @@
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 4,
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 5,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 6,
@@ -89,7 +89,7 @@
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -103,7 +103,7 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 16,
@@ -159,14 +159,14 @@
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 24,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
@@ -180,7 +180,7 @@
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 27,
@@ -208,7 +208,7 @@
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 31,
@@ -257,10 +257,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         }
     ],
     "historial": [
+        {
+            "id": 9,
+            "fecha_hora": "2026-11-06 07:09:03",
+            "telefono": "+34632082479",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Sara Gómez Bayona",
+            "agente_ventas_alias": "Sara Gómez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Sara Gómez (Jose)",
+                "Paula (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Marcos Garcia (Paula)",
+                "Leo Miranda (Victor)"
+            ]
+        },
         {
             "id": 8,
             "fecha_hora": "2026-11-06 05:33:21",
@@ -407,7 +425,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
