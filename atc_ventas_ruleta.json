@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 10,
+            "fecha_hora": "2026-11-06 07:22:08",
+            "telefono": "+34632704468",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Paula Andrea Guzman Jaramillo",
+            "agente_ventas_alias": "Paula",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Paula (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Marcos Garcia (Paula)",
+                "Leo Miranda (Victor)",
+                "Antonio de la villa (Jose)"
+            ]
+        },
+        {
             "id": 9,
             "fecha_hora": "2026-11-06 07:09:03",
             "telefono": "+34632082479",
@@ -425,7 +443,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
