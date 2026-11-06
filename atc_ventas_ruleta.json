@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 7,
+            "fecha_hora": "2026-11-06 04:36:08",
+            "telefono": "+34951566096",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Linda Liceth Pérez Pineda",
+            "agente_ventas_alias": "Linda Pérez / Elena Pérez",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Linda Pérez / Elena Pérez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Sara Gómez (Jose)",
+                "Paula (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)"
+            ]
+        },
+        {
             "id": 6,
             "fecha_hora": "2026-11-06 04:10:00",
             "telefono": "+34615465360",
@@ -371,7 +389,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
