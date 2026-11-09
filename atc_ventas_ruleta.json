@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 21,
+            "fecha_hora": "2026-11-09 04:50:24",
+            "telefono": "+34652859863",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Evelin Acevedo Cortés",
+            "agente_ventas_alias": "Gabriela",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Johana Sanchez (Paula)"
+            ]
+        },
+        {
             "id": 20,
             "fecha_hora": "2026-11-09 04:49:37",
             "telefono": "+34652859863",
@@ -623,7 +641,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
