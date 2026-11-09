@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 27,
+            "fecha_hora": "2026-11-09 06:42:21",
+            "telefono": "+34603645936",
+            "agente_atc": "Britney Valentina Niño Fuentes",
+            "agente_ventas_real": "Johana Osorio Bedoya",
+            "agente_ventas_alias": "Johana Sanchez",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Manuela Villegas (Jose)",
+                "Marcela (Paula)",
+                "Gustavo (Victor)",
+                "Oscar (Jose)"
+            ]
+        },
+        {
             "id": 26,
             "fecha_hora": "2026-11-09 06:40:44",
             "telefono": "+34603645936",
@@ -723,7 +741,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
