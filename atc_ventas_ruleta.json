@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 22,
+            "fecha_hora": "2026-11-09 04:50:53",
+            "telefono": "+34652859863",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Yarnedis Cecilia Urrutia Pérez",
+            "agente_ventas_alias": "Cecilia López",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Cecilia López (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)"
+            ]
+        },
+        {
             "id": 21,
             "fecha_hora": "2026-11-09 04:50:24",
             "telefono": "+34652859863",
@@ -641,7 +659,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
