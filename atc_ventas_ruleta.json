@@ -40,7 +40,7 @@
             "real": "Paula Andrea Guzman Jaramillo",
             "alias": "Paula",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 7,
@@ -54,7 +54,7 @@
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 9,
@@ -117,7 +117,7 @@
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 18,
@@ -145,14 +145,14 @@
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 22,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 23,
@@ -201,7 +201,7 @@
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 30,
@@ -222,14 +222,14 @@
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 33,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 34,
@@ -250,7 +250,7 @@
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 37,
@@ -261,6 +261,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 24,
+            "fecha_hora": "2026-11-09 05:29:59",
+            "telefono": "631495146",
+            "agente_atc": "Yully Buitrago",
+            "agente_ventas_real": "Yeismer Miranda Ramirez",
+            "agente_ventas_alias": "Leo Miranda",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Leo Miranda (Victor)",
+                "Isabel Botero (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Manuela Villegas (Jose)",
+                "Marcela (Paula)"
+            ]
+        },
         {
             "id": 23,
             "fecha_hora": "2026-11-09 04:51:12",
@@ -677,7 +695,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
