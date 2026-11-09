@@ -3,6 +3,7 @@ import hmac
 import json
 import random
 import threading
+import zlib
 import time as time_lib
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
@@ -39,7 +40,9 @@ TIPO_TRANSFERIDO = "Transferido (turno)"            # Cuenta como salto
 TIPO_TRANSFERIDO_ANTERIOR = "Siguiente en Ruleta"   # Registros de la versión anterior (también cuentan)
 TIPO_NO_DISPONIBLE = "No disponible (saltado)"       # No cuenta como transferencia, pero pasa al final de su grupo
 TIPO_REASIGNADO = "Reasignado al Mismo Agente"       # Cliente recurrente: no mueve la rotación
+TIPO_ELIMINADA = "Eliminada por admin"              # No cuenta y no se le muestra al asesor; queda para auditoría
 TIPOS_QUE_CUENTAN = {TIPO_TRANSFERIDO, TIPO_TRANSFERIDO_ANTERIOR}
+TIPOS_ASIGNACION_VIGENTE = TIPOS_QUE_CUENTAN | {TIPO_REASIGNADO}
 TIPO_VISIBLE = {  # cómo se muestran los tipos guardados en el historial
     "Transferido (turno)": "Asignación (turno)",
     "Siguiente en Ruleta": "Asignación (versión anterior)",
@@ -623,7 +626,7 @@ def buscar_transferencia_previa(telefono: str) -> dict | None:
         return None
     historial = obtener_turnero_para_mostrar()["historial"]
     return next((h for h in historial if h.get("telefono") == telefono_clean
-                 and h.get("tipo") != TIPO_NO_DISPONIBLE), None)
+                 and h.get("tipo") not in (TIPO_NO_DISPONIBLE, TIPO_ELIMINADA)), None)
 
 
 def reasignar_al_mismo(pin: str, telefono: str) -> tuple[str, str]:
@@ -636,7 +639,7 @@ def reasignar_al_mismo(pin: str, telefono: str) -> tuple[str, str]:
     def operacion():
         data = obtener_turnero_fresco()
         previo = next((h for h in data["historial"] if h.get("telefono") == telefono_clean
-                       and h.get("tipo") != TIPO_NO_DISPONIBLE), None)
+                       and h.get("tipo") not in (TIPO_NO_DISPONIBLE, TIPO_ELIMINADA)), None)
         if not previo:
             return "error", "❌ No se encontró registro previo para reasignar a este cliente."
         _registro_historial(
@@ -702,6 +705,38 @@ def aplicar_reset_diario_si_corresponde():
     resultado = ejecutar_con_reintentos(operacion)
     if resultado is True or resultado is None:  # None = ya estaba hecho hoy
         st.session_state.reset_diario_verificado = hoy  # si falló, se reintenta en la próxima carga
+
+
+def clave_asignacion(h: dict) -> str:
+    return "|".join(str(h.get(c, "")) for c in ("fecha_hora", "telefono", "agente_ventas_real", "agente_atc", "id"))
+
+
+def eliminar_asignaciones(claves: list, motivo: str, registrado_por: str) -> tuple[bool, str]:
+    """
+    Quita asignaciones elegidas por el admin: dejan de contar en la fila y de verse en IVR.
+    El registro queda marcado en el historial (quién, cuándo y por qué) en vez de borrarse.
+    """
+    nombre, error = _validar_registrado_por(registrado_por)
+    if error:
+        return False, error
+    if not claves:
+        return False, "ℹ️ No seleccionaste ninguna asignación."
+
+    def operacion():
+        data = obtener_turnero_fresco()
+        ahora = obtener_hora_colombia_str()
+        marcadas = 0
+        for h in data["historial"]:
+            if clave_asignacion(h) in claves and h.get("tipo") in TIPOS_ASIGNACION_VIGENTE:
+                h.update(tipo_original=h["tipo"], tipo=TIPO_ELIMINADA, eliminada_por=nombre,
+                         eliminada_en=ahora, motivo_eliminacion=motivo.strip())
+                marcadas += 1
+        if not marcadas:
+            return False, "ℹ️ Esas asignaciones ya no están vigentes (quizá otro admin las eliminó)."
+        if guardar_turnero(data, f"Admin {nombre}: elimina {marcadas} asignación(es) - {motivo.strip()[:60]}"):
+            return True, f"✅ Se eliminaron {marcadas} asignación(es). Ya no cuentan en la fila ni se ven en IVR."
+        return False, "❌ Hubo un fallo temporal de comunicación con GitHub. Intenta nuevamente."
+    return ejecutar_con_reintentos(operacion)
 
 
 def vaciar_historial_atc(registrado_por: str):
@@ -846,7 +881,7 @@ elif opcion_vista == "🛡️ Vista Administrador":
     else:
         admin_nombre = st.sidebar.text_input(
             "👤 Tu nombre (admin)", key="admin_nombre", placeholder="Obligatorio para guardar cambios",
-            help="Queda registrado al vaciar el historial.",
+            help="Queda registrado al eliminar asignaciones o vaciar el historial.",
         )
         if st.sidebar.button("Cerrar Sesión Admin", use_container_width=True):
             st.session_state.admin_logged = False
@@ -856,9 +891,10 @@ elif opcion_vista == "🛡️ Vista Administrador":
         if aviso:
             st.success(aviso)
 
-        tab_gestion, tab_historial, tab_estados, tab_log, tab_consulta = st.tabs([
+        tab_gestion, tab_historial, tab_eliminar, tab_estados, tab_log, tab_consulta = st.tabs([
             "⚙️ Gestión de la Fila",
             "📊 Historial de Asignaciones",
+            "🗑️ Eliminar Asignaciones",
             "👥 Cambios Activo / Inactivo",
             "📜 Log de Asignaciones",
             "🔎 Consulta",
@@ -970,6 +1006,56 @@ elif opcion_vista == "🛡️ Vista Administrador":
                     mime="text/csv",
                     use_container_width=True,
                 )
+
+        # ------------------------------------------
+        # ELIMINAR ASIGNACIONES (REPETIDAS O MAL HECHAS)
+        # ------------------------------------------
+        with tab_eliminar:
+            st.subheader("🗑️ Eliminar asignaciones repetidas o mal hechas")
+            st.caption("La asignación deja de contar en la fila y desaparece de la vista del asesor en IVR. "
+                       "Queda marcada en el historial con quién la eliminó y el motivo.")
+            c_fecha, c_solo = st.columns([1, 2])
+            hoy_elim = obtener_fecha_hora_colombia().date()
+            fecha_elim = c_fecha.date_input("Día:", value=hoy_elim, max_value=hoy_elim,
+                                            key="fecha_eliminar").strftime("%Y-%m-%d")
+            solo_repetidos = c_solo.checkbox("Mostrar solo teléfonos repetidos ese día", value=True, key="solo_repetidos")
+
+            vigentes = [h for h in obtener_turnero_para_mostrar()["historial"]
+                        if str(h.get("fecha_hora", "")).startswith(fecha_elim)
+                        and h.get("tipo") in TIPOS_ASIGNACION_VIGENTE]
+            por_telefono = {}
+            for h in vigentes:
+                por_telefono[h.get("telefono")] = por_telefono.get(h.get("telefono"), 0) + 1
+            candidatas = [h for h in vigentes if not solo_repetidos or por_telefono[h.get("telefono")] > 1]
+            candidatas.sort(key=lambda h: (str(h.get("telefono")), str(h.get("fecha_hora"))))
+
+            if not candidatas:
+                st.info("No hay repetidos ese día." if solo_repetidos else "No hay asignaciones ese día.")
+            else:
+                textos = {}
+                vistos = set()
+                for h in candidatas:
+                    tel = h.get("telefono")
+                    nota = " · PRIMERA" if tel not in vistos and por_telefono[tel] > 1 else ""
+                    vistos.add(tel)
+                    textos[clave_asignacion(h)] = (f"{tel} · {str(h.get('fecha_hora'))[11:19]} · "
+                                                   f"{h.get('agente_ventas_alias')} ({h.get('coordinador', '')}) · "
+                                                   f"ATC {h.get('agente_atc', '')}{nota}")
+                # La llave cambia con las opciones: una selección vieja nunca apunta a un registro que ya no está
+                llave = "eliminar_sel_" + str(zlib.crc32("||".join(textos).encode()))
+                seleccion = st.multiselect("Asignaciones a eliminar:", list(textos), format_func=textos.get, key=llave)
+                motivo_elim = st.text_input("Motivo:", value="Asignación repetida", key="motivo_eliminar")
+                confirmar_elim = st.checkbox(f"Confirmo eliminar {len(seleccion)} asignación(es).", key=f"conf_{llave}")
+                if st.button("🗑️ Eliminar seleccionadas", type="primary", use_container_width=True,
+                             disabled=not (seleccion and confirmar_elim)):
+                    exito, msj = eliminar_asignaciones(seleccion, motivo_elim, admin_nombre)
+                    if exito:
+                        st.session_state["aviso_admin"] = msj
+                        st.rerun()
+                    elif msj.startswith("ℹ️"):
+                        st.info(msj)
+                    else:
+                        st.error(msj)
 
         # ------------------------------------------
         # TAB 3: CAMBIOS DE ESTADO
