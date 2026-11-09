@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 19,
+            "fecha_hora": "2026-11-09 04:48:47",
+            "telefono": "+34652859863",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Mateo Cano Hincapié",
+            "agente_ventas_alias": "Antonio de la villa",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Antonio de la villa (Jose)",
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)"
+            ]
+        },
+        {
             "id": 18,
             "fecha_hora": "2026-11-09 04:48:09",
             "telefono": "+34652859863",
@@ -587,7 +605,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
