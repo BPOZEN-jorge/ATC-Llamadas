@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 17,
+            "fecha_hora": "2026-11-09 04:47:33",
+            "telefono": "+34652859863",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Andrea Mileidy londoño Bedoya",
+            "agente_ventas_alias": "Andrea Valverde",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Andrea Valverde (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Antonio de la villa (Jose)",
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)"
+            ]
+        },
+        {
             "id": 16,
             "fecha_hora": "2026-11-09 04:43:15",
             "telefono": "+34620786360",
@@ -551,7 +569,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
