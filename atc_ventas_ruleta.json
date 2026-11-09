@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 30,
+            "fecha_hora": "2026-11-09 08:32:33",
+            "telefono": "+34679737939",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Claudia Marcela Manco Vargas",
+            "agente_ventas_alias": "Marcela",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marcela (Paula)",
+                "Gustavo (Victor)",
+                "Oscar (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)",
+                "Viviana Gómez (Victor)",
+                "Maria Antonia García (Jose)"
+            ]
+        },
+        {
             "id": 29,
             "fecha_hora": "2026-11-09 08:05:11",
             "telefono": "+34643595706",
@@ -777,7 +795,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
