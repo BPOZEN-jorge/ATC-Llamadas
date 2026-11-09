@@ -110,7 +110,7 @@
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 17,
@@ -261,6 +261,16 @@
         }
     ],
     "historial": [
+        {
+            "id": 26,
+            "fecha_hora": "2026-11-09 06:40:44",
+            "telefono": "+34603645936",
+            "agente_atc": "Britney Valentina Niño Fuentes",
+            "agente_ventas_real": "Mateo Cano Hincapié",
+            "agente_ventas_alias": "Antonio de la villa",
+            "coordinador": "Jose",
+            "tipo": "Reasignado al Mismo Agente"
+        },
         {
             "id": 25,
             "fecha_hora": "2026-11-09 06:35:23",
