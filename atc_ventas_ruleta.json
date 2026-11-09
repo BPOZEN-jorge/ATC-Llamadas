@@ -12,14 +12,14 @@
             "real": "Sara Gómez Bayona",
             "alias": "Sara Gómez",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 3,
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 4,
@@ -33,7 +33,7 @@
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 6,
@@ -61,7 +61,7 @@
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 10,
@@ -75,21 +75,21 @@
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 12,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 13,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -103,14 +103,14 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 16,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 17,
@@ -138,7 +138,7 @@
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 21,
@@ -159,14 +159,14 @@
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 24,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
@@ -180,7 +180,7 @@
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 27,
@@ -208,14 +208,14 @@
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 31,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 32,
@@ -243,7 +243,7 @@
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 36,
@@ -257,10 +257,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         }
     ],
     "historial": [
+        {
+            "id": 25,
+            "fecha_hora": "2026-11-09 06:35:23",
+            "telefono": "699497702",
+            "agente_atc": "Mariana Marulanda Mesa",
+            "agente_ventas_real": "Dayana Botero Rojas",
+            "agente_ventas_alias": "Isabel Botero",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Isabel Botero (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Manuela Villegas (Jose)",
+                "Marcela (Paula)",
+                "Gustavo (Victor)"
+            ]
+        },
         {
             "id": 24,
             "fecha_hora": "2026-11-09 05:29:59",
@@ -695,7 +713,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
