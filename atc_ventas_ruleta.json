@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 29,
+            "fecha_hora": "2026-11-09 08:05:11",
+            "telefono": "+34643595706",
+            "agente_atc": "Katerin Johana Gutiérrez villa",
+            "agente_ventas_real": "Manuela villegas Giraldo",
+            "agente_ventas_alias": "Manuela Villegas",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuela Villegas (Jose)",
+                "Marcela (Paula)",
+                "Gustavo (Victor)",
+                "Oscar (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)",
+                "Viviana Gómez (Victor)"
+            ]
+        },
+        {
             "id": 28,
             "fecha_hora": "2026-11-09 07:14:21",
             "telefono": "+34699967473",
@@ -759,7 +777,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
