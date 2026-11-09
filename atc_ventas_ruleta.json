@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 28,
+            "fecha_hora": "2026-11-09 07:14:21",
+            "telefono": "+34699967473",
+            "agente_atc": "Nazlin Yudith Robledo Blando",
+            "agente_ventas_real": "Yesly Marilyn Carrero Rivera",
+            "agente_ventas_alias": "Marilyn Carrero",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marilyn Carrero (Victor)",
+                "Manuela Villegas (Jose)",
+                "Marcela (Paula)",
+                "Gustavo (Victor)",
+                "Oscar (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)"
+            ]
+        },
+        {
             "id": 27,
             "fecha_hora": "2026-11-09 06:42:21",
             "telefono": "+34603645936",
@@ -741,7 +759,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
