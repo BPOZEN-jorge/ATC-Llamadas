@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 23,
+            "fecha_hora": "2026-11-09 04:51:12",
+            "telefono": "+34652859863",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Iris Sabiana Cano Cano",
+            "agente_ventas_alias": "Maria Cano",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Antonio de la villa (Jose)"
+            ]
+        },
+        {
             "id": 22,
             "fecha_hora": "2026-11-09 04:50:53",
             "telefono": "+34652859863",
@@ -659,7 +677,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
