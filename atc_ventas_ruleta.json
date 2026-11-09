@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 18,
+            "fecha_hora": "2026-11-09 04:48:09",
+            "telefono": "+34652859863",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Angie Valeria Quirama Hernández",
+            "agente_ventas_alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Valeria Hernandez (Victor)",
+                "Antonio de la villa (Jose)",
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Maria Cano (Paula)"
+            ]
+        },
+        {
             "id": 17,
             "fecha_hora": "2026-11-09 04:47:33",
             "telefono": "+34652859863",
@@ -569,7 +587,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
