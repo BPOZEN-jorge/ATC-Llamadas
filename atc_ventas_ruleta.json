@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 20,
+            "fecha_hora": "2026-11-09 04:49:37",
+            "telefono": "+34652859863",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Brayan Andrey Bustamante",
+            "agente_ventas_alias": "Marcos Garcia",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Cecilia López (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Manuel Vasquez (Jose)"
+            ]
+        },
+        {
             "id": 19,
             "fecha_hora": "2026-11-09 04:48:47",
             "telefono": "+34652859863",
@@ -605,7 +623,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
