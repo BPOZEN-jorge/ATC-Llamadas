@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 39,
+            "fecha_hora": "2026-11-10 13:28:29",
+            "telefono": "+34622889063",
+            "agente_atc": "dany isaza",
+            "agente_ventas_real": "Yesly Marilyn Carrero Rivera",
+            "agente_ventas_alias": "Marilyn Carrero",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marilyn Carrero (Victor)",
+                "Juan Esteban (Jose)",
+                "Johana Sanchez (Paula)",
+                "Gustavo (Victor)",
+                "Cecilia López (Jose)",
+                "Paula (Paula)"
+            ]
+        },
+        {
             "id": 38,
             "fecha_hora": "2026-11-10 12:43:18",
             "telefono": "+34749067608",
@@ -939,7 +957,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
