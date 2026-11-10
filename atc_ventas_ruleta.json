@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 37,
+            "fecha_hora": "2026-11-10 11:47:13",
+            "telefono": "+34692428082",
+            "agente_atc": "Glendys Sayago Sayago",
+            "agente_ventas_real": "Sara Gómez Bayona",
+            "agente_ventas_alias": "Sara Gómez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Juan Esteban (Jose)",
+                "Johana Sanchez (Paula)",
+                "Gustavo (Victor)"
+            ]
+        },
+        {
             "id": 36,
             "fecha_hora": "2026-11-10 11:24:58",
             "telefono": "+34667849365",
@@ -903,7 +921,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
