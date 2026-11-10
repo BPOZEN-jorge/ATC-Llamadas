@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 34,
+            "fecha_hora": "2026-11-10 10:38:02",
+            "telefono": "+34692428082",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Mateo Cano Hincapié",
+            "agente_ventas_alias": "Antonio de la villa",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Antonio de la villa (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gabriela (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Marilyn Carrero (Victor)"
+            ]
+        },
+        {
             "id": 33,
             "fecha_hora": "2026-11-10 09:01:30",
             "telefono": "+34686508158",
@@ -849,7 +867,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
