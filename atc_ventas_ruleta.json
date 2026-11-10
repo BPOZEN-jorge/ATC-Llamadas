@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 33,
+            "fecha_hora": "2026-11-10 09:01:30",
+            "telefono": "+34686508158",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Angie Valeria Quirama Hernández",
+            "agente_ventas_alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Valeria Hernandez (Victor)",
+                "Antonio de la villa (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gabriela (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)"
+            ]
+        },
+        {
             "id": 32,
             "fecha_hora": "2026-11-10 07:39:20",
             "telefono": "+34699329117",
@@ -831,7 +849,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
