@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 32,
+            "fecha_hora": "2026-11-10 07:39:20",
+            "telefono": "+34699329117",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Alisson Correa Gaviria",
+            "agente_ventas_alias": "Alisson",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Alisson (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Antonio de la villa (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gabriela (Victor)",
+                "Sara Gómez (Jose)"
+            ]
+        },
+        {
             "id": 31,
             "fecha_hora": "2026-11-10 07:17:18",
             "telefono": "615811406",
@@ -813,7 +831,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
