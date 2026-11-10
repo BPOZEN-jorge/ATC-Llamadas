@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 38,
+            "fecha_hora": "2026-11-10 12:43:18",
+            "telefono": "+34749067608",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Iris Sabiana Cano Cano",
+            "agente_ventas_alias": "Maria Cano",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Cano (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Juan Esteban (Jose)",
+                "Johana Sanchez (Paula)",
+                "Gustavo (Victor)",
+                "Cecilia López (Jose)"
+            ]
+        },
+        {
             "id": 37,
             "fecha_hora": "2026-11-10 11:47:13",
             "telefono": "+34692428082",
@@ -921,7 +939,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
