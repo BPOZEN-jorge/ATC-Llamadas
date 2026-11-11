@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 46,
+            "fecha_hora": "2026-11-11 14:16:36",
+            "telefono": "+34620683123",
+            "agente_atc": "dany isaza",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Isabel Botero (Jose)",
+                "Alisson (Paula)",
+                "Valeria Hernandez (Victor)"
+            ]
+        },
+        {
             "id": 45,
             "fecha_hora": "2026-11-11 13:01:06",
             "telefono": "+34655998987",
@@ -1065,7 +1083,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
