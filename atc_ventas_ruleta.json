@@ -19,7 +19,7 @@
             "real": "Janis Henao Vasco",
             "alias": "María José",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 4,
@@ -61,7 +61,7 @@
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 10,
@@ -75,7 +75,7 @@
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 12,
@@ -89,7 +89,7 @@
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -103,14 +103,14 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 16,
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 17,
@@ -124,7 +124,7 @@
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 19,
@@ -159,14 +159,14 @@
             "real": "Tatiana Magreth Acevedo Marín",
             "alias": "Tatiana",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 24,
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
@@ -180,7 +180,7 @@
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 27,
@@ -208,14 +208,14 @@
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 31,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 32,
@@ -257,10 +257,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         }
     ],
     "historial": [
+        {
+            "id": 44,
+            "fecha_hora": "2026-11-11 11:24:31",
+            "telefono": "652986344",
+            "agente_atc": "Joyke Machacon Suarez",
+            "agente_ventas_real": "Iris Sabiana Cano Cano",
+            "agente_ventas_alias": "Maria Cano",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Cecilia López (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Manuel Vasquez (Jose)"
+            ]
+        },
         {
             "id": 43,
             "fecha_hora": "2026-11-11 09:00:27",
@@ -1029,7 +1047,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
