@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 43,
+            "fecha_hora": "2026-11-11 09:00:27",
+            "telefono": "+34722394695",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Sara Gómez Bayona",
+            "agente_ventas_alias": "Sara Gómez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Cecilia López (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)"
+            ]
+        },
+        {
             "id": 42,
             "fecha_hora": "2026-11-11 05:44:02",
             "telefono": "658376861",
@@ -1011,7 +1029,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
