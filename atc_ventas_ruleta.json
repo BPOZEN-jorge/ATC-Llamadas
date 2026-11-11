@@ -131,7 +131,7 @@
             "real": "Yarnedis Cecilia Urrutia Pérez",
             "alias": "Cecilia López",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 20,
@@ -261,6 +261,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 45,
+            "fecha_hora": "2026-11-11 13:01:06",
+            "telefono": "+34655998987",
+            "agente_atc": "Raymar Carolina Ramírez Martínez",
+            "agente_ventas_real": "Yeismer Miranda Ramirez",
+            "agente_ventas_alias": "Leo Miranda",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Leo Miranda (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Johana Sanchez (Paula)",
+                "Marilyn Carrero (Victor)",
+                "Isabel Botero (Jose)",
+                "Alisson (Paula)"
+            ]
+        },
         {
             "id": 44,
             "fecha_hora": "2026-11-11 11:24:31",
@@ -1047,7 +1065,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
