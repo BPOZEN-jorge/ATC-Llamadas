@@ -124,7 +124,7 @@
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 19,
@@ -261,6 +261,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 41,
+            "fecha_hora": "2026-11-11 04:32:46",
+            "telefono": "+34677537716",
+            "agente_atc": "Yully Buitrago",
+            "agente_ventas_real": "Andrea Mileidy londoño Bedoya",
+            "agente_ventas_alias": "Andrea Valverde",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Andrea Valverde (Paula)",
+                "Gabriela (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Cecilia López (Jose)"
+            ]
+        },
         {
             "id": 40,
             "fecha_hora": "2026-11-11 04:12:32",
@@ -975,7 +993,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
