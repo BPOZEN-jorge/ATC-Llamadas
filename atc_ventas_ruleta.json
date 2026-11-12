@@ -33,7 +33,7 @@
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 6,
@@ -75,7 +75,7 @@
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 12,
@@ -89,7 +89,7 @@
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -103,7 +103,7 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 16,
@@ -166,7 +166,7 @@
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
@@ -180,7 +180,7 @@
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 27,
@@ -208,21 +208,21 @@
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 31,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 32,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 33,
@@ -257,10 +257,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         }
     ],
     "historial": [
+        {
+            "id": 48,
+            "fecha_hora": "2026-11-12 08:29:43",
+            "telefono": "+34619077364",
+            "agente_atc": "Yurley Palacios Córdoba",
+            "agente_ventas_real": "Andrea Mileidy londoño Bedoya",
+            "agente_ventas_alias": "Andrea Valverde",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Andrea Valverde (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Antonio de la villa (Jose)"
+            ]
+        },
         {
             "id": 47,
             "fecha_hora": "2026-11-12 05:52:41",
@@ -1101,7 +1119,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
