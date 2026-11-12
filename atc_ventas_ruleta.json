@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 52,
+            "fecha_hora": "2026-11-12 14:23:35",
+            "telefono": "646781140",
+            "agente_atc": "Britney Valentina Niño Fuentes",
+            "agente_ventas_real": "Evelin Acevedo Cortés",
+            "agente_ventas_alias": "Gabriela",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gabriela (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Cecilia López (Jose)",
+                "Johana Sanchez (Paula)"
+            ]
+        },
+        {
             "id": 51,
             "fecha_hora": "2026-11-12 14:00:50",
             "telefono": "+34636472670",
@@ -1173,7 +1191,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
