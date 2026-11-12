@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 49,
+            "fecha_hora": "2026-11-12 11:19:10",
+            "telefono": "+34630011646",
+            "agente_atc": "Johnny Llano",
+            "agente_ventas_real": "Angie Valeria Quirama Hernández",
+            "agente_ventas_alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Valeria Hernandez (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)"
+            ]
+        },
+        {
             "id": 48,
             "fecha_hora": "2026-11-12 08:29:43",
             "telefono": "+34619077364",
@@ -1119,7 +1137,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
