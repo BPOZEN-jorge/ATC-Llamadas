@@ -262,6 +262,24 @@
     ],
     "historial": [
         {
+            "id": 51,
+            "fecha_hora": "2026-11-12 14:00:50",
+            "telefono": "+34636472670",
+            "agente_atc": "Raymar Carolina Ramírez Martínez",
+            "agente_ventas_real": "Brayan Andrey Bustamante",
+            "agente_ventas_alias": "Marcos Garcia",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Leo Miranda (Victor)",
+                "Cecilia López (Jose)"
+            ]
+        },
+        {
             "id": 50,
             "fecha_hora": "2026-11-12 12:01:58",
             "telefono": "34674009556",
@@ -1155,7 +1173,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
