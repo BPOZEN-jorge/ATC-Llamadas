@@ -54,14 +54,14 @@
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 9,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 10,
@@ -75,7 +75,7 @@
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 12,
@@ -103,7 +103,7 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 16,
@@ -124,7 +124,7 @@
             "real": "Brayan Andrey Bustamante",
             "alias": "Marcos Garcia",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 19,
@@ -138,7 +138,7 @@
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 21,
@@ -201,21 +201,21 @@
             "real": "Dayana Botero Rojas",
             "alias": "Isabel Botero",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 30,
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 31,
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 32,
@@ -257,10 +257,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         }
     ],
     "historial": [
+        {
+            "id": 53,
+            "fecha_hora": "2026-11-13 07:17:03",
+            "telefono": "+34635846070",
+            "agente_atc": "Glendys Sayago Sayago",
+            "agente_ventas_real": "Carlos Alberto Herrera Cardeño",
+            "agente_ventas_alias": "Carlos Herrera / Alberto Fernandez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Maria Cano (Paula)",
+                "Gabriela (Victor)"
+            ]
+        },
         {
             "id": 52,
             "fecha_hora": "2026-11-12 14:23:35",
@@ -1191,7 +1209,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
