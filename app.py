@@ -104,7 +104,9 @@ AGENTES_ATC_INICIALES = [
     "dany isaza",
     "maria fernanda",
     "María José Hernández Aldana",
-    "Joyke Machacon Suarez"
+    "Joyke Machacon Suarez",
+    "Janis Henao Vasco",
+    "Tatiana Magreth Acevedo Marín",
 ]
 
 # ==========================================
@@ -120,11 +122,9 @@ USUARIOS_INICIALES = [
     {"posicion": 7, "real": "Carlos Alberto Herrera Cardeño", "alias": "Carlos Herrera / Alberto Fernandez", "coordinador": "Jose"},
     {"posicion": 8, "real": "Claudia Marcela Manco Vargas", "alias": "Marcela", "coordinador": "Paula"},
     {"posicion": 9, "real": "Cristian David Acosta Montoya", "alias": "Manuel Vasquez", "coordinador": "Jose"},
-    {"posicion": 10, "real": "Dayana Botero Rojas", "alias": "Isabel Botero", "coordinador": "Jose"},
     {"posicion": 11, "real": "Evelin Acevedo Cortés", "alias": "Gabriela", "coordinador": "Victor"},
     {"posicion": 12, "real": "Gustavo Adolfo Barrientos Serna", "alias": "Gustavo", "coordinador": "Victor"},
     {"posicion": 13, "real": "Iris Sabiana Cano Cano", "alias": "Maria Cano", "coordinador": "Paula"},
-    {"posicion": 14, "real": "Janis Henao Vasco", "alias": "María José", "coordinador": "Victor"},
     {"posicion": 15, "real": "Johana Osorio Bedoya", "alias": "Johana Sanchez", "coordinador": "Paula"},
     {"posicion": 16, "real": "Juan Esteban Acevedo Garces", "alias": "Juan Esteban", "coordinador": "Jose"},
     {"posicion": 17, "real": "Juan Sebastian Serna Sepulveda", "alias": "Juan Sebastian", "coordinador": "Paula"},
@@ -140,7 +140,6 @@ USUARIOS_INICIALES = [
     {"posicion": 27, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula", "coordinador": "Paula"},
     {"posicion": 28, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez", "coordinador": "Paula"},
     {"posicion": 29, "real": "Sara Gómez Bayona", "alias": "Sara Gómez", "coordinador": "Jose"},
-    {"posicion": 30, "real": "Tatiana Magreth Acevedo Marín", "alias": "Tatiana", "coordinador": "Victor"},
     {"posicion": 31, "real": "Tomas Castaño Gómez", "alias": "Tomas", "coordinador": "Paula"},
     {"posicion": 32, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez", "coordinador": "Victor"},
     {"posicion": 33, "real": "Yarlen Biviana Son Cedeño", "alias": "Maria Rodriguez", "coordinador": "Paula"},
@@ -438,6 +437,7 @@ def _normalizar_turnero(data: dict) -> dict:
     data.setdefault("puntero_coordinador", 0)
     data.setdefault("cambios_estado", [])
     turnos = data.get("turnos") or [dict(u) for u in USUARIOS_INICIALES]
+    turnos = [t for t in turnos if t["real"] in COORDINADOR_POR_AGENTE]  # solo el equipo de ventas actual
     existentes = {t["real"] for t in turnos}
     turnos += [dict(u, activo=False) for u in USUARIOS_INICIALES if u["real"] not in existentes]
     for t in turnos:
