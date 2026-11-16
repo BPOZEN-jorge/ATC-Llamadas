@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 55,
+            "fecha_hora": "2026-11-16 04:12:42",
+            "telefono": "607710932",
+            "agente_atc": "Britney Valentina Niño Fuentes",
+            "agente_ventas_real": "Angie Vanessa García",
+            "agente_ventas_alias": "Maria Antonia García",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Antonia García (Jose)",
+                "Alisson (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)"
+            ]
+        },
+        {
             "id": 54,
             "fecha_hora": "2026-11-13 11:12:15",
             "telefono": "659480002",
@@ -1206,7 +1224,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
