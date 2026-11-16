@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 59,
+            "fecha_hora": "2026-11-16 06:24:08",
+            "telefono": "+34611466858",
+            "agente_atc": "Yully Buitrago",
+            "agente_ventas_real": "Ana Maria Sanchez Gamboa",
+            "agente_ventas_alias": "Maria Sanchez",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gustavo (Victor)",
+                "Juan Esteban (Jose)"
+            ]
+        },
+        {
             "id": 58,
             "fecha_hora": "2026-11-16 05:46:30",
             "telefono": "665871819",
@@ -1278,7 +1296,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
