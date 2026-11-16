@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 57,
+            "fecha_hora": "2026-11-16 05:18:42",
+            "telefono": "+34632830069",
+            "agente_atc": "Yurley Palacios Córdoba",
+            "agente_ventas_real": "Angie Valeria Quirama Hernández",
+            "agente_ventas_alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Valeria Hernandez (Victor)",
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)"
+            ]
+        },
+        {
             "id": 56,
             "fecha_hora": "2026-11-16 05:00:51",
             "telefono": "+34636980980",
@@ -1242,7 +1260,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
