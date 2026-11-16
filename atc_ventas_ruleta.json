@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 61,
+            "fecha_hora": "2026-11-16 13:51:34",
+            "telefono": "619471715",
+            "agente_atc": "Esmeralda Garcia",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Karen (Victor)",
+                "Juan Esteban (Jose)",
+                "Marcos Garcia (Paula)",
+                "Paola Romero (Victor)"
+            ]
+        },
+        {
             "id": 60,
             "fecha_hora": "2026-11-16 13:24:02",
             "telefono": "+34648228511",
@@ -1314,7 +1332,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
