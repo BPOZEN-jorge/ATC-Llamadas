@@ -5,7 +5,7 @@
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 2,
@@ -240,6 +240,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 60,
+            "fecha_hora": "2026-11-16 13:24:02",
+            "telefono": "+34648228511",
+            "agente_atc": "Janis Henao Vasco",
+            "agente_ventas_real": "Gustavo Adolfo Barrientos Serna",
+            "agente_ventas_alias": "Gustavo",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gustavo (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Karen (Victor)",
+                "Juan Esteban (Jose)",
+                "Marcos Garcia (Paula)"
+            ]
+        },
         {
             "id": 59,
             "fecha_hora": "2026-11-16 06:24:08",
@@ -1296,7 +1314,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
