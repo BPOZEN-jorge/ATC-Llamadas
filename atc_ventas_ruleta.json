@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 58,
+            "fecha_hora": "2026-11-16 05:46:30",
+            "telefono": "665871819",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Carlos Alberto Herrera Cardeño",
+            "agente_ventas_alias": "Carlos Herrera / Alberto Fernandez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gustavo (Victor)"
+            ]
+        },
+        {
             "id": 57,
             "fecha_hora": "2026-11-16 05:18:42",
             "telefono": "+34632830069",
@@ -1260,7 +1278,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
