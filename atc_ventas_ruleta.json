@@ -1332,7 +1332,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
@@ -1749,6 +1749,6 @@
             "registrado_por": "Sistema"
         }
     ],
-    "ultimo_reset_diario": "2026-11-16",
+    "ultimo_reset_diario": "2026-11-17",
     "no_disponibles_ronda": {}
 }
