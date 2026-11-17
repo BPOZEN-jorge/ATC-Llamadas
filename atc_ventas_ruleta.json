@@ -5,7 +5,7 @@
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 2,
@@ -240,6 +240,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 62,
+            "fecha_hora": "2026-11-17 13:06:44",
+            "telefono": "+34670675497",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Angie Vanessa García",
+            "agente_ventas_alias": "Maria Antonia García",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Antonia García (Jose)",
+                "Alisson (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)"
+            ]
+        },
         {
             "id": 61,
             "fecha_hora": "2026-11-16 13:51:34",
@@ -1332,7 +1350,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
