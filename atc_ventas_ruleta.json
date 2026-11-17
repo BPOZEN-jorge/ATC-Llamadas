@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 64,
+            "fecha_hora": "2026-11-17 13:21:00",
+            "telefono": "Panel de Validación de Lista Negra",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Angie Valeria Quirama Hernández",
+            "agente_ventas_alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Valeria Hernandez (Victor)",
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)"
+            ]
+        },
+        {
             "id": 63,
             "fecha_hora": "2026-11-17 13:20:58",
             "telefono": "Panel de Validación de Lista Negra",
@@ -1368,7 +1386,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
