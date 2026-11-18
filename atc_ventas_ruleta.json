@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 68,
+            "fecha_hora": "2026-11-18 06:36:59",
+            "telefono": "652319118",
+            "agente_atc": "Janis Henao Vasco",
+            "agente_ventas_real": "Angie Valeria Quirama Hernández",
+            "agente_ventas_alias": "Valeria Hernandez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Valeria Hernandez (Victor)",
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)"
+            ]
+        },
+        {
             "id": 67,
             "fecha_hora": "2026-11-18 06:36:18",
             "telefono": "652319118",
@@ -1440,7 +1458,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
