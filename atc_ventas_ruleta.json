@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 71,
+            "fecha_hora": "2026-11-18 11:30:50",
+            "telefono": "+34600759095",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Evelin Acevedo Cortés",
+            "agente_ventas_alias": "Gabriela",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gustavo (Victor)",
+                "Juan Esteban (Jose)",
+                "Marcos Garcia (Paula)"
+            ]
+        },
+        {
             "id": 70,
             "fecha_hora": "2026-11-18 06:42:15",
             "telefono": "622318141",
@@ -1494,7 +1512,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
