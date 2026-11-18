@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 72,
+            "fecha_hora": "2026-11-18 13:36:18",
+            "telefono": "674027754",
+            "agente_atc": "Mariana Marulanda Mesa",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gustavo (Victor)",
+                "Juan Esteban (Jose)",
+                "Marcos Garcia (Paula)",
+                "Karen (Victor)"
+            ]
+        },
+        {
             "id": 71,
             "fecha_hora": "2026-11-18 11:30:50",
             "telefono": "+34600759095",
@@ -1512,7 +1530,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
