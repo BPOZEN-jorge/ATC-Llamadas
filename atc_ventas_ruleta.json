@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 70,
+            "fecha_hora": "2026-11-18 06:42:15",
+            "telefono": "622318141",
+            "agente_atc": "Joyke Machacon Suarez",
+            "agente_ventas_real": "Ana Maria Sanchez Gamboa",
+            "agente_ventas_alias": "Maria Sanchez",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Andrea Valverde (Paula)",
+                "Gustavo (Victor)",
+                "Juan Esteban (Jose)"
+            ]
+        },
+        {
             "id": 69,
             "fecha_hora": "2026-11-18 06:42:14",
             "telefono": "622318141",
@@ -1476,7 +1494,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
