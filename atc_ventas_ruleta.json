@@ -5,7 +5,7 @@
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 2,
@@ -54,7 +54,7 @@
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 10,
@@ -68,7 +68,7 @@
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 12,
@@ -82,7 +82,7 @@
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -96,7 +96,7 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 16,
@@ -110,7 +110,7 @@
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 18,
@@ -131,14 +131,14 @@
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 21,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 22,
@@ -152,21 +152,21 @@
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 25,
             "real": "Iris Sabiana Cano Cano",
             "alias": "Maria Cano",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 26,
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 27,
@@ -236,10 +236,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         }
     ],
     "historial": [
+        {
+            "id": 74,
+            "fecha_hora": "2026-11-19 10:29:15",
+            "telefono": "693301910",
+            "agente_atc": "Joyke Machacon Suarez",
+            "agente_ventas_real": "Andrea Mileidy londoño Bedoya",
+            "agente_ventas_alias": "Andrea Valverde",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Andrea Valverde (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Viviana Gómez (Victor)",
+                "Antonio de la villa (Jose)"
+            ]
+        },
         {
             "id": 73,
             "fecha_hora": "2026-11-19 05:39:53",
@@ -1548,7 +1566,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
