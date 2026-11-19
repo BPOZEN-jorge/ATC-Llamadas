@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 76,
+            "fecha_hora": "2026-11-19 11:50:45",
+            "telefono": "+34652319118",
+            "agente_atc": "Raymar Carolina Ramírez Martínez",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Viviana Gómez (Victor)",
+                "Antonio de la villa (Jose)",
+                "Johana Sanchez (Paula)",
+                "Leo Miranda (Victor)"
+            ]
+        },
+        {
             "id": 75,
             "fecha_hora": "2026-11-19 10:48:23",
             "telefono": "+34937603036",
@@ -1584,7 +1602,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
