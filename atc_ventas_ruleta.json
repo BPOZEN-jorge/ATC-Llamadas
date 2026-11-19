@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 77,
+            "fecha_hora": "2026-11-19 13:10:06",
+            "telefono": "+34649891913",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Brayan Andrey Bustamante",
+            "agente_ventas_alias": "Marcos Garcia",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marcos Garcia (Paula)",
+                "Viviana Gómez (Victor)",
+                "Antonio de la villa (Jose)",
+                "Johana Sanchez (Paula)",
+                "Leo Miranda (Victor)",
+                "Sara Gómez (Jose)"
+            ]
+        },
+        {
             "id": 76,
             "fecha_hora": "2026-11-19 11:50:45",
             "telefono": "+34652319118",
@@ -1602,7 +1620,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
