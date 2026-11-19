@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 78,
+            "fecha_hora": "2026-11-19 13:59:49",
+            "telefono": "651532259",
+            "agente_atc": "Joyke Machacon Suarez",
+            "agente_ventas_real": "Viviana Pacheco Córdoba",
+            "agente_ventas_alias": "Viviana Gómez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Viviana Gómez (Victor)",
+                "Antonio de la villa (Jose)",
+                "Johana Sanchez (Paula)",
+                "Leo Miranda (Victor)",
+                "Sara Gómez (Jose)",
+                "Alisson (Paula)"
+            ]
+        },
+        {
             "id": 77,
             "fecha_hora": "2026-11-19 13:10:06",
             "telefono": "+34649891913",
@@ -1620,7 +1638,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
