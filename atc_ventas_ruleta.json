@@ -103,7 +103,7 @@
             "real": "Rosa Elvira Agamez López",
             "alias": "Flor Lopez",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 17,
@@ -187,7 +187,7 @@
             "real": "Libia Paola Romero Cantillo",
             "alias": "Paola Romero",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 31,
@@ -215,7 +215,7 @@
             "real": "Yesly Marilyn Carrero Rivera",
             "alias": "Marilyn Carrero",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 35,
@@ -240,6 +240,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 79,
+            "fecha_hora": "2026-11-20 06:43:51",
+            "telefono": "+34617140231",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Angie Vanessa García",
+            "agente_ventas_alias": "Maria Antonia García",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Antonia García (Jose)",
+                "Alisson (Paula)",
+                "Valeria Hernandez (Victor)",
+                "Carlos Herrera / Alberto Fernandez (Jose)",
+                "Maria Sanchez (Paula)",
+                "Gabriela (Victor)"
+            ]
+        },
         {
             "id": 78,
             "fecha_hora": "2026-11-19 13:59:49",
@@ -1638,7 +1656,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
