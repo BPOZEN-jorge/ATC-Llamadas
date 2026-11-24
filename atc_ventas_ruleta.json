@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 92,
+            "fecha_hora": "2026-11-24 10:00:25",
+            "telefono": "722531946",
+            "agente_atc": "Tatiana Magreth Acevedo Marín",
+            "agente_ventas_real": "Viviana Pacheco Córdoba",
+            "agente_ventas_alias": "Viviana Gómez",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Viviana Gómez (Victor)",
+                "Cecilia López (Jose)",
+                "Maria Rodriguez (Paula)",
+                "Yesica López (Victor)",
+                "Manuela Villegas (Jose)",
+                "Alisson (Paula)"
+            ]
+        },
+        {
             "id": 91,
             "fecha_hora": "2026-11-24 09:46:29",
             "telefono": "602118634",
@@ -1872,7 +1890,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
