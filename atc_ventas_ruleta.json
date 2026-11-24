@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 88,
+            "fecha_hora": "2026-11-24 08:01:45",
+            "telefono": "+34609053760",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Iris Sabiana Cano Cano",
+            "agente_ventas_alias": "Maria Cano",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Maria Cano (Paula)",
+                "Karolina (Victor)",
+                "Antonio de la villa (Jose)",
+                "Paula (Paula)",
+                "Viviana Gómez (Victor)",
+                "Cecilia López (Jose)"
+            ]
+        },
+        {
             "id": 87,
             "fecha_hora": "2026-11-24 08:01:43",
             "telefono": "+34609053760",
@@ -1800,7 +1818,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
