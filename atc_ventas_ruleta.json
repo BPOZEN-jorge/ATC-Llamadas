@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 91,
+            "fecha_hora": "2026-11-24 09:46:29",
+            "telefono": "602118634",
+            "agente_atc": "Tatiana Magreth Acevedo Marín",
+            "agente_ventas_real": "Paula Andrea Guzman Jaramillo",
+            "agente_ventas_alias": "Paula",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Paula (Paula)",
+                "Viviana Gómez (Victor)",
+                "Cecilia López (Jose)",
+                "Maria Rodriguez (Paula)",
+                "Yesica López (Victor)",
+                "Manuela Villegas (Jose)"
+            ]
+        },
+        {
             "id": 90,
             "fecha_hora": "2026-11-24 09:13:04",
             "telefono": "689125928",
@@ -1854,7 +1872,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
