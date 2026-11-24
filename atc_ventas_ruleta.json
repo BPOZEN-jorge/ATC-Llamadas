@@ -5,7 +5,7 @@
             "real": "Evelin Acevedo Cortés",
             "alias": "Gabriela",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 2,
@@ -19,14 +19,14 @@
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 5,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 6,
@@ -40,49 +40,49 @@
             "real": "Johana Osorio Bedoya",
             "alias": "Johana Sanchez",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 8,
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 9,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 10,
             "real": "Andrea Mileidy londoño Bedoya",
             "alias": "Andrea Valverde",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 11,
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 12,
             "real": "Alisson Correa Gaviria",
             "alias": "Alisson",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 13,
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 14,
@@ -96,7 +96,7 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 16,
@@ -110,7 +110,7 @@
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 18,
@@ -131,21 +131,21 @@
             "real": "Ana Maria Sanchez Gamboa",
             "alias": "Maria Sanchez",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 21,
             "real": "Claudia Marcela Manco Vargas",
             "alias": "Marcela",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 22,
             "real": "Viviana Pacheco Córdoba",
             "alias": "Viviana Gómez",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 24,
@@ -166,14 +166,14 @@
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 27,
             "real": "Yeismer Miranda Ramirez",
             "alias": "Leo Miranda",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 28,
@@ -194,21 +194,21 @@
             "real": "Angie Vanessa García",
             "alias": "Maria Antonia García",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 32,
             "real": "Yesica Paola Lopez Arango",
             "alias": "Yesica López",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 33,
             "real": "Gustavo Adolfo Barrientos Serna",
             "alias": "Gustavo",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 34,
@@ -222,24 +222,42 @@
             "real": "María Karolina Viana Cancio",
             "alias": "Karolina",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 36,
             "real": "Linda Liceth Pérez Pineda",
             "alias": "Linda Pérez / Elena Pérez",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 37,
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         }
     ],
     "historial": [
+        {
+            "id": 84,
+            "fecha_hora": "2026-11-24 04:09:19",
+            "telefono": "+34624161135",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Antonio de la villa (Jose)",
+                "Paula (Paula)"
+            ]
+        },
         {
             "id": 83,
             "fecha_hora": "2026-11-23 11:19:22",
@@ -1728,7 +1746,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
