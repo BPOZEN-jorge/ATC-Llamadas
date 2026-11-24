@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 90,
+            "fecha_hora": "2026-11-24 09:13:04",
+            "telefono": "689125928",
+            "agente_atc": "Tatiana Magreth Acevedo Marín",
+            "agente_ventas_real": "Mateo Cano Hincapié",
+            "agente_ventas_alias": "Antonio de la villa",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Antonio de la villa (Jose)",
+                "Paula (Paula)",
+                "Viviana Gómez (Victor)",
+                "Cecilia López (Jose)",
+                "Maria Rodriguez (Paula)",
+                "Yesica López (Victor)"
+            ]
+        },
+        {
             "id": 89,
             "fecha_hora": "2026-11-24 09:11:32",
             "telefono": "+34604361684",
@@ -1836,7 +1854,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
