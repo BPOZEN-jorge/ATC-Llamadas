@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 93,
+            "fecha_hora": "2026-11-24 10:48:41",
+            "telefono": "659586203",
+            "agente_atc": "Mariana Marulanda Mesa",
+            "agente_ventas_real": "Yarnedis Cecilia Urrutia Pérez",
+            "agente_ventas_alias": "Cecilia López",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Cecilia López (Jose)",
+                "Maria Rodriguez (Paula)",
+                "Yesica López (Victor)",
+                "Manuela Villegas (Jose)",
+                "Alisson (Paula)",
+                "Gabriela (Victor)"
+            ]
+        },
+        {
             "id": 92,
             "fecha_hora": "2026-11-24 10:00:25",
             "telefono": "722531946",
@@ -1890,7 +1908,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
