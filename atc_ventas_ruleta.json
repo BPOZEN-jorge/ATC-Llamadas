@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 95,
+            "fecha_hora": "2026-11-25 05:53:52",
+            "telefono": "+34663653376",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Brayan Andrey Bustamante",
+            "agente_ventas_alias": "Marcos Garcia",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Karen (Victor)",
+                "Sara Gómez (Jose)"
+            ]
+        },
+        {
             "id": 94,
             "fecha_hora": "2026-11-25 05:48:10",
             "telefono": "616022684",
@@ -1926,7 +1944,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
