@@ -241,6 +241,24 @@
     ],
     "historial": [
         {
+            "id": 99,
+            "fecha_hora": "2026-11-25 12:00:24",
+            "telefono": "34627186257",
+            "agente_atc": "Evelin Rios Zuleta",
+            "agente_ventas_real": "Karen Herrera Gonzalez",
+            "agente_ventas_alias": "Karen",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Karen (Victor)",
+                "Sara Gómez (Jose)",
+                "Johana Sanchez (Paula)",
+                "Leo Miranda (Victor)",
+                "Cecilia López (Jose)",
+                "Linda Pérez / Elena Pérez (Paula)"
+            ]
+        },
+        {
             "id": 98,
             "fecha_hora": "2026-11-25 11:44:18",
             "telefono": "617357521",
@@ -1998,7 +2016,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
