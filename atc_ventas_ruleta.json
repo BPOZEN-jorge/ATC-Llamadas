@@ -19,14 +19,14 @@
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "coordinador": "Victor",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 5,
             "real": "Juan Esteban Acevedo Garces",
             "alias": "Juan Esteban",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 6,
@@ -47,14 +47,14 @@
             "real": "Oscar José Llanos Mendinueta",
             "alias": "Oscar",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 9,
             "real": "Juan Sebastian Serna Sepulveda",
             "alias": "Juan Sebastian",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 10,
@@ -68,7 +68,7 @@
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 12,
@@ -96,7 +96,7 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 16,
@@ -152,7 +152,7 @@
             "real": "Yarlen Biviana Son Cedeño",
             "alias": "Maria Rodriguez",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 25,
@@ -166,7 +166,7 @@
             "real": "Carlos Alberto Herrera Cardeño",
             "alias": "Carlos Herrera / Alberto Fernandez",
             "coordinador": "Jose",
-            "activo": true
+            "activo": false
         },
         {
             "posicion": 27,
@@ -236,10 +236,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": true
+            "activo": false
         }
     ],
     "historial": [
+        {
+            "id": 94,
+            "fecha_hora": "2026-11-25 05:48:10",
+            "telefono": "616022684",
+            "agente_atc": "Geraldine Arrieta",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Gabriela (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Karen (Victor)"
+            ]
+        },
         {
             "id": 93,
             "fecha_hora": "2026-11-24 10:48:41",
@@ -1908,7 +1926,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
