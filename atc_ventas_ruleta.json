@@ -19,7 +19,7 @@
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 5,
@@ -240,6 +240,24 @@
         }
     ],
     "historial": [
+        {
+            "id": 96,
+            "fecha_hora": "2026-11-25 07:06:06",
+            "telefono": "+34680998825",
+            "agente_atc": "Nataly De castro Henao",
+            "agente_ventas_real": "Evelin Acevedo Cortés",
+            "agente_ventas_alias": "Gabriela",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gabriela (Victor)",
+                "Antonio de la villa (Jose)",
+                "Maria Cano (Paula)",
+                "Karen (Victor)",
+                "Sara Gómez (Jose)",
+                "Johana Sanchez (Paula)"
+            ]
+        },
         {
             "id": 95,
             "fecha_hora": "2026-11-25 05:53:52",
@@ -1944,7 +1962,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
