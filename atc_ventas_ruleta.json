@@ -19,7 +19,7 @@
             "real": "Angie Valeria Quirama Hernández",
             "alias": "Valeria Hernandez",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 5,
@@ -68,7 +68,7 @@
             "real": "Tomas Castaño Gómez",
             "alias": "Tomas",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 12,
@@ -82,7 +82,7 @@
             "real": "Karen Herrera Gonzalez",
             "alias": "Karen",
             "coordinador": "Victor",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 14,
@@ -96,7 +96,7 @@
             "real": "Omar David Barboza Carbonero",
             "alias": "Omar",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 16,
@@ -236,10 +236,28 @@
             "real": "Luis Alberto Lozano Ibarra",
             "alias": "Luis Lozano",
             "coordinador": "Paula",
-            "activo": false
+            "activo": true
         }
     ],
     "historial": [
+        {
+            "id": 101,
+            "fecha_hora": "2026-11-27 10:09:31",
+            "telefono": "+34652878097",
+            "agente_atc": "MIGUEL ANGEL ZUÑIGA MOSQUERA",
+            "agente_ventas_real": "Andrea Mileidy londoño Bedoya",
+            "agente_ventas_alias": "Andrea Valverde",
+            "coordinador": "Paula",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Andrea Valverde (Paula)",
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Leo Miranda (Victor)",
+                "Sara Gómez (Jose)"
+            ]
+        },
         {
             "id": 100,
             "fecha_hora": "2026-11-27 05:46:50",
@@ -2034,7 +2052,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 2,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
