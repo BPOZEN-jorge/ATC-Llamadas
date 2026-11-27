@@ -99,13 +99,6 @@
             "activo": true
         },
         {
-            "posicion": 16,
-            "real": "Rosa Elvira Agamez López",
-            "alias": "Flor Lopez",
-            "coordinador": "Paula",
-            "activo": false
-        },
-        {
             "posicion": 17,
             "real": "Manuela villegas Giraldo",
             "alias": "Manuela Villegas",
@@ -237,9 +230,48 @@
             "alias": "Luis Lozano",
             "coordinador": "Paula",
             "activo": true
+        },
+        {
+            "posicion": 38,
+            "real": "Julián Andrés Osorio Aristizabal",
+            "alias": "Julián Osorio",
+            "coordinador": "Jose",
+            "activo": false
+        },
+        {
+            "posicion": 39,
+            "real": "Kelly Jhoana Salas Ibarguen",
+            "alias": "Kelly Salas",
+            "coordinador": "Jose",
+            "activo": false
+        },
+        {
+            "posicion": 40,
+            "real": "Stefany Vanegas Arbelaez",
+            "alias": "Stefany Vanegas",
+            "coordinador": "Jose",
+            "activo": false
         }
     ],
     "historial": [
+        {
+            "id": 102,
+            "fecha_hora": "2026-11-27 11:28:31",
+            "telefono": "+34676234570",
+            "agente_atc": "María José Hernández Aldana",
+            "agente_ventas_real": "Evelin Acevedo Cortés",
+            "agente_ventas_alias": "Gabriela",
+            "coordinador": "Victor",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Gabriela (Victor)",
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Leo Miranda (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)"
+            ]
+        },
         {
             "id": 101,
             "fecha_hora": "2026-11-27 10:09:31",
@@ -2052,7 +2084,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 2,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
