@@ -107,6 +107,15 @@ AGENTES_ATC_INICIALES = [
     "Joyke Machacon Suarez",
     "Janis Henao Vasco",
     "Tatiana Magreth Acevedo Marín",
+    "Angie Garcia",
+    "Kevin Morelo",
+    "Manuela Ortiz",
+    "Valentina Cortes",
+    "Mateo Restrepo",
+    "Natalia Calleja",
+    "Isadora Alvarez",
+    "Estiven Hernandez",
+    "Daniel Yepes",
 ]
 
 # ==========================================
