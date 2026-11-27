@@ -255,6 +255,24 @@
     ],
     "historial": [
         {
+            "id": 103,
+            "fecha_hora": "2026-11-27 11:29:08",
+            "telefono": "638555895",
+            "agente_atc": "Janis Henao Vasco",
+            "agente_ventas_real": "Cristian David Acosta Montoya",
+            "agente_ventas_alias": "Manuel Vasquez",
+            "coordinador": "Jose",
+            "tipo": "Transferido (turno)",
+            "siguientes_snapshot": [
+                "Manuel Vasquez (Jose)",
+                "Marcos Garcia (Paula)",
+                "Leo Miranda (Victor)",
+                "Sara Gómez (Jose)",
+                "Maria Cano (Paula)",
+                "Gustavo (Victor)"
+            ]
+        },
+        {
             "id": 102,
             "fecha_hora": "2026-11-27 11:28:31",
             "telefono": "+34676234570",
@@ -2084,7 +2102,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 0,
+    "puntero_coordinador": 1,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
