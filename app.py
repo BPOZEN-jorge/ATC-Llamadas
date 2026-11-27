@@ -138,7 +138,6 @@ USUARIOS_INICIALES = [
     {"posicion": 25, "real": "Omar David Barboza Carbonero", "alias": "Omar", "coordinador": "Paula"},
     {"posicion": 26, "real": "Oscar José Llanos Mendinueta", "alias": "Oscar", "coordinador": "Jose"},
     {"posicion": 27, "real": "Paula Andrea Guzman Jaramillo", "alias": "Paula", "coordinador": "Paula"},
-    {"posicion": 28, "real": "Rosa Elvira Agamez López", "alias": "Flor Lopez", "coordinador": "Paula"},
     {"posicion": 29, "real": "Sara Gómez Bayona", "alias": "Sara Gómez", "coordinador": "Jose"},
     {"posicion": 31, "real": "Tomas Castaño Gómez", "alias": "Tomas", "coordinador": "Paula"},
     {"posicion": 32, "real": "Viviana Pacheco Córdoba", "alias": "Viviana Gómez", "coordinador": "Victor"},
@@ -147,6 +146,9 @@ USUARIOS_INICIALES = [
     {"posicion": 35, "real": "Yeismer Miranda Ramirez", "alias": "Leo Miranda", "coordinador": "Victor"},
     {"posicion": 36, "real": "Yesica Paola Lopez Arango", "alias": "Yesica López", "coordinador": "Victor"},
     {"posicion": 37, "real": "Yesly Marilyn Carrero Rivera", "alias": "Marilyn Carrero", "coordinador": "Victor"},
+    {"posicion": 38, "real": "Julián Andrés Osorio Aristizabal", "alias": "Julián Osorio", "coordinador": "Jose"},
+    {"posicion": 39, "real": "Kelly Jhoana Salas Ibarguen", "alias": "Kelly Salas", "coordinador": "Jose"},
+    {"posicion": 40, "real": "Stefany Vanegas Arbelaez", "alias": "Stefany Vanegas", "coordinador": "Jose"},
 ]
 COORDINADOR_POR_AGENTE = {u["real"]: u["coordinador"] for u in USUARIOS_INICIALES}
 
