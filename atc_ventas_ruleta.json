@@ -236,21 +236,21 @@
             "real": "Julián Andrés Osorio Aristizabal",
             "alias": "Julián Osorio",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 39,
             "real": "Kelly Jhoana Salas Ibarguen",
             "alias": "Kelly Salas",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         },
         {
             "posicion": 40,
             "real": "Stefany Vanegas Arbelaez",
             "alias": "Stefany Vanegas",
             "coordinador": "Jose",
-            "activo": false
+            "activo": true
         }
     ],
     "historial": [
@@ -2102,7 +2102,7 @@
         }
     ],
     "reservas": {},
-    "puntero_coordinador": 1,
+    "puntero_coordinador": 0,
     "cambios_estado": [
         {
             "fecha_hora": "2026-11-05 04:01:37",
@@ -2519,6 +2519,6 @@
             "registrado_por": "Sistema"
         }
     ],
-    "ultimo_reset_diario": "2026-11-27",
+    "ultimo_reset_diario": "2026-11-28",
     "no_disponibles_ronda": {}
 }
